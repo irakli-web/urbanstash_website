@@ -79,7 +79,7 @@ export default function HomePageV2() {
               No more weekend trips to sketchy warehouses. Book online, access anytime, and never leave your neighborhood.
             </p>
             <div className="flex justify-center">
-              <Link to="/units" className="px-8 py-4 bg-accent hover:opacity-90 text-white font-semibold rounded-2xl transition-colors">
+              <Link to="/units" className="px-8 py-4 bg-accent hover:opacity-90 text-on-accent font-semibold rounded-2xl transition-colors">
                 Find storage
               </Link>
             </div>
@@ -216,7 +216,7 @@ export default function HomePageV2() {
                 <div className="space-y-3 mb-6">
                   {sizingOptions.map((opt, i) => (
                     <Link key={i} to="/sizing" className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all group">
-                      <div className="w-10 h-10 rounded-lg bg-accent text-white flex items-center justify-center font-bold text-sm">
+                      <div className="w-10 h-10 rounded-lg bg-accent text-on-accent flex items-center justify-center font-bold text-sm">
                         {opt.size}
                       </div>
                       <div className="flex-1">

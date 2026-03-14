@@ -96,6 +96,17 @@ function isDarkBg(hex) {
   return luminance < 0.25;
 }
 
+/** Get contrasting text color for text on accent: white on dark accents, dark on light accents */
+export function getContrastColor(hex) {
+  const h = String(hex).replace(/^#/, '');
+  if (h.length !== 6) return '#ffffff';
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance >= 0.5 ? '#0f172a' : '#ffffff';
+}
+
 /** Each main color with its pre-computed secondary and tertiary for UI harmony */
 export const PALETTE_WITH_TRIADS = PALETTE.map((c) => ({
   ...c,
@@ -130,6 +141,7 @@ export function ColorProvider({ children }) {
     document.documentElement.style.setProperty('--accent-color', accentColor);
     document.documentElement.style.setProperty('--accent-secondary', accentSecondary);
     document.documentElement.style.setProperty('--accent-tertiary', accentTertiary);
+    document.documentElement.style.setProperty('--accent-on-accent', getContrastColor(accentColor));
   }, [accentColor, accentSecondary, accentTertiary]);
 
   useEffect(() => {

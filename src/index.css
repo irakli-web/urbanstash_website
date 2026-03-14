@@ -41,6 +41,10 @@ body {
 .bg-accent-tertiary { background-color: var(--accent-tertiary, #1d4ed8) !important; }
 .bg-theme { background-color: var(--bg-color, #ffffff) !important; }
 .bg-accent:hover { filter: brightness(0.9); }
+.text-on-accent { color: var(--accent-on-accent, #ffffff) !important; }
+.text-on-accent\/90 { color: color-mix(in srgb, var(--accent-on-accent, #ffffff) 90%, transparent) !important; }
+.text-on-accent\/60 { color: color-mix(in srgb, var(--accent-on-accent, #ffffff) 60%, transparent) !important; }
+.placeholder\:text-on-accent\/60::placeholder { color: color-mix(in srgb, var(--accent-on-accent, #ffffff) 60%, transparent) !important; }
 .text-accent { color: var(--accent-color, #f97316) !important; }
 .text-accent-secondary { color: var(--accent-secondary, #3b82f6) !important; }
 .text-accent-tertiary { color: var(--accent-tertiary, #1d4ed8) !important; }

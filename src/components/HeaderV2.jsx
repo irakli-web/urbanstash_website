@@ -3,10 +3,15 @@ import { Link } from 'react-router-dom';
 import { useVersion } from '../context/VersionContext';
 import { useColor } from '../context/ColorContext';
 
+const HEX_REGEX = /^#?([0-9A-Fa-f]{6})$/;
+const toHex = (v) => (v && HEX_REGEX.test(v.replace(/^#/, '')) ? '#' + v.replace(/^#/, '').slice(0, 6) : null);
+
 export default function HeaderV2({ showFindStorage = true }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [versionDropdownOpen, setVersionDropdownOpen] = useState(false);
   const [colorPickerOpen, setColorPickerOpen] = useState(false);
+  const [accentHexInput, setAccentHexInput] = useState('');
+  const [bgHexInput, setBgHexInput] = useState('');
   const { version, setVersion } = useVersion();
   const { accentColor, setAccentColor, bgColor, setBgColor, palette, bgPalette } = useColor() || {};
 
@@ -29,7 +34,7 @@ export default function HeaderV2({ showFindStorage = true }) {
             About
           </Link>
           {showFindStorage && (
-            <Link to="/units" className="bg-accent hover:opacity-90 text-white px-5 py-2.5 rounded-full font-medium transition-colors">
+            <Link to="/units" className="bg-accent hover:opacity-90 text-on-accent px-5 py-2.5 rounded-full font-medium transition-colors">
               Find Storage
             </Link>
           )}
@@ -82,6 +87,21 @@ export default function HeaderV2({ showFindStorage = true }) {
                         />
                       ))}
                     </div>
+                    <div className="flex gap-2 items-center mb-4">
+                      <input
+                        type="text"
+                        placeholder="#000000"
+                        defaultValue={accentColor}
+                        className="flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-accent"
+                        onBlur={(e) => {
+                          const v = e.target.value.trim();
+                          const hex = /^#?([0-9A-Fa-f]{6})$/.test(v) ? (v.startsWith('#') ? v : '#' + v) : null;
+                          if (hex && setAccentColor) setAccentColor(hex);
+                        }}
+                        onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+                      />
+                      <span className="w-6 h-6 rounded border border-gray-300 flex-shrink-0" style={{ backgroundColor: accentColor }} />
+                    </div>
                     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Background</p>
                     <div className="grid grid-cols-6 gap-2">
                       {(bgPalette || palette).map((c) => (
@@ -93,6 +113,21 @@ export default function HeaderV2({ showFindStorage = true }) {
                           title={c.name}
                         />
                       ))}
+                    </div>
+                    <div className="flex gap-2 items-center mt-2">
+                      <input
+                        type="text"
+                        placeholder="#ffffff"
+                        defaultValue={bgColor}
+                        className="flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-accent"
+                        onBlur={(e) => {
+                          const v = e.target.value.trim();
+                          const hex = /^#?([0-9A-Fa-f]{6})$/.test(v) ? (v.startsWith('#') ? v : '#' + v) : null;
+                          if (hex && setBgColor) setBgColor(hex);
+                        }}
+                        onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+                      />
+                      <span className="w-6 h-6 rounded border border-gray-300 flex-shrink-0" style={{ backgroundColor: bgColor }} />
                     </div>
                   </div>
                 </>
@@ -150,7 +185,7 @@ export default function HeaderV2({ showFindStorage = true }) {
               About
             </Link>
             {showFindStorage && (
-              <Link to="/units" className="py-3 px-2 text-center bg-accent hover:opacity-90 text-white rounded-full font-medium transition-colors" onClick={() => setMenuOpen(false)}>
+              <Link to="/units" className="py-3 px-2 text-center bg-accent hover:opacity-90 text-on-accent rounded-full font-medium transition-colors" onClick={() => setMenuOpen(false)}>
                 Find Storage
               </Link>
             )}
@@ -190,6 +225,21 @@ export default function HeaderV2({ showFindStorage = true }) {
                     />
                   ))}
                 </div>
+                <div className="flex gap-2 items-center mt-2 px-2">
+                  <input
+                    type="text"
+                    placeholder="#000000"
+                    defaultValue={accentColor}
+                    className="flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-accent"
+                    onBlur={(e) => {
+                      const v = e.target.value.trim();
+                      const hex = /^#?([0-9A-Fa-f]{6})$/.test(v) ? (v.startsWith('#') ? v : '#' + v) : null;
+                      if (hex && setAccentColor) setAccentColor(hex);
+                    }}
+                    onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+                  />
+                  <span className="w-6 h-6 rounded border border-gray-300 flex-shrink-0" style={{ backgroundColor: accentColor }} />
+                </div>
                 <p className="px-2 text-gray-500 text-xs uppercase tracking-wider mt-3 mb-1">Background</p>
                 <div className="flex gap-1 flex-wrap">
                   {(bgPalette || palette).slice(0, 8).map((c) => (
@@ -200,6 +250,21 @@ export default function HeaderV2({ showFindStorage = true }) {
                       style={{ backgroundColor: c.hex }}
                     />
                   ))}
+                </div>
+                <div className="flex gap-2 items-center mt-2 px-2">
+                  <input
+                    type="text"
+                    placeholder="#ffffff"
+                    defaultValue={bgColor}
+                    className="flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-accent"
+                    onBlur={(e) => {
+                      const v = e.target.value.trim();
+                      const hex = /^#?([0-9A-Fa-f]{6})$/.test(v) ? (v.startsWith('#') ? v : '#' + v) : null;
+                      if (hex && setBgColor) setBgColor(hex);
+                    }}
+                    onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+                  />
+                  <span className="w-6 h-6 rounded border border-gray-300 flex-shrink-0" style={{ backgroundColor: bgColor }} />
                 </div>
               </div>
             )}

@@ -10,8 +10,8 @@ export default function FooterV2() {
       <div className="bg-accent py-12 px-4 md:px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <h3 className="text-2xl font-bold text-white mb-2">Stay Updated</h3>
-            <p className="text-blue-100">Subscribe to our newsletter for urban storage tips.</p>
+            <h3 className="text-2xl font-bold text-on-accent mb-2">Stay Updated</h3>
+            <p className="text-on-accent/90">Subscribe to our newsletter for urban storage tips.</p>
           </div>
           <div className="flex w-full md:w-auto gap-2">
             <input
@@ -19,7 +19,7 @@ export default function FooterV2() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 md:w-64 px-4 py-3 rounded-lg border border-gray-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="flex-1 md:w-64 px-4 py-3 rounded-lg border border-white/30 bg-white/10 text-on-accent placeholder:text-on-accent/60 focus:outline-none focus:ring-2 focus:ring-white/30"
             />
             <button className="px-6 py-3 bg-white text-accent font-medium rounded-lg hover:opacity-90 transition-colors whitespace-nowrap">
               Sign Up
