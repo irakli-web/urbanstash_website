@@ -12,6 +12,7 @@ export default function HeaderV2({ showFindStorage = true }) {
   const { pathname } = useLocation();
 
   const navLinks = [
+    { to: '/', label: 'Home' },
     { to: '/sizing', label: 'Sizing' },
     { to: '/units', label: 'Locations' },
     { to: '/about', label: 'About' },
