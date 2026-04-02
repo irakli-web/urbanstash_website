@@ -51,47 +51,36 @@ export const locations = [
       { text: 'Amazing experience — super easy and hassle-free! Everything felt secure, and it really helped me free up valuable space in my apartment. I highly recommend their services and will definitely continue using them.', author: 'Maya Raichel', time: '3 weeks ago' },
       { text: "Super smooth from start to finish. Getting in and out is simple, everything is well organized, and it made a huge difference in clearing clutter from my apartment. It's been incredibly convenient and stress-free. Highly recommended!!", author: 'yaara tal', time: '2 weeks ago' },
     ],
-  },
-  {
-    id: '11-allen-st',
-    slug: '11-allen-st-new-york',
-    name: '11 Allen St New York',
-    address: '11 Allen Street, New York, New York 10002, United States',
-    neighborhood: 'Lower East Side',
-    reviewCount: 28,
-    rating: 4.7,
-    featuredReview: {
-      text: "Super smooth from start to finish. Getting in and out is simple, everything is well organized, and it made a huge differ...",
-      author: 'yaara tal',
-    },
-    accessHours: '7:00 AM-10:00 PM (Every day)',
-    about: "Located in the vibrant Lower East Side, this facility offers convenient storage options right in the heart of Manhattan. Perfect for urban dwellers who need extra space without the hassle of traveling outside the city.",
-    features: [
-      'Security Cameras',
-      'Cancel anytime',
-      'Climate Controlled',
-      'Smart Lock included',
-      '24/7 Access Available',
-    ],
-    units: [
+    /** Portrait video carousel: title + thumbnail + embed URL (YouTube embed format) */
+    videos: [
       {
-        id: '11as-small-1',
-        size: "2'w x 3'd x 8'h",
-        sqft: 6,
-        price: 100,
-        description: 'Compact storage',
+        id: '24ab-v1',
+        title: 'How to get here',
+        thumbnail:
+          'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=360&h=640&fit=crop&q=80',
+        videoUrl: 'https://www.youtube.com/embed/jNQXAC9IVRw',
       },
       {
-        id: '11as-medium-1',
-        size: "12'w x 12'd x 12'h",
-        sqft: 144,
-        price: 300,
-        description: 'Large unit',
+        id: '24ab-v2',
+        title: 'Our founders',
+        thumbnail:
+          'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=360&h=640&fit=crop&q=80',
+        videoUrl: 'https://www.youtube.com/embed/M7lc1UVf-VE',
       },
-    ],
-    reviews: [
-      { text: 'Great service. Made my life so much easier.', author: 'Oren Klagsbald', time: '3 weeks ago' },
-      { text: 'Clean, secure, and easy to access. Highly recommended.', author: 'Ori', time: '2 weeks ago' },
+      {
+        id: '24ab-v3',
+        title: 'Storage walkthrough',
+        thumbnail:
+          'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=360&h=640&fit=crop&q=80',
+        videoUrl: 'https://www.youtube.com/embed/ysz5S6PUM-U',
+      },
+      {
+        id: '24ab-v4',
+        title: 'Neighborhood tour',
+        thumbnail:
+          'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=360&h=640&fit=crop&q=80',
+        videoUrl: 'https://www.youtube.com/embed/L_LUpnjgPso',
+      },
     ],
   },
 ];

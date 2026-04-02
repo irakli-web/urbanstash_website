@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,43 +25,96 @@ body {
   background-color: #000;
 }
 
-/* Design v2 uses light background - handled by page-level bg-white */
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+a, button, input, select, details summary {
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform, filter;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-::-webkit-scrollbar-track {
-  background: #18181b;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
-::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 4px;
-}
+/* ─── Section backgrounds ─── */
+.bg-navy { background-color: #0a1628 !important; }
+.bg-charcoal { background-color: #111111 !important; }
+.bg-deep { background-color: #060606 !important; }
+.bg-accent-tint { background-color: var(--bg-accent-tint, rgba(249,115,22,0.04)) !important; }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
-}
-
-/* V2 accent + background - uses CSS variables from ColorContext */
+/* ─── Accent system (CSS vars from ColorContext) ─── */
 .bg-accent { background-color: var(--accent-color, #f97316) !important; }
+.bg-accent\/5 { background-color: color-mix(in srgb, var(--accent-color, #f97316) 5%, transparent) !important; }
+.bg-accent\/10 { background-color: color-mix(in srgb, var(--accent-color, #f97316) 10%, transparent) !important; }
+.bg-accent\/15 { background-color: color-mix(in srgb, var(--accent-color, #f97316) 15%, transparent) !important; }
+.bg-accent\/20 { background-color: color-mix(in srgb, var(--accent-color, #f97316) 20%, transparent) !important; }
 .bg-accent-secondary { background-color: var(--accent-secondary, #3b82f6) !important; }
 .bg-accent-tertiary { background-color: var(--accent-tertiary, #1d4ed8) !important; }
 .bg-theme { background-color: var(--bg-color, #ffffff) !important; }
-.bg-accent:hover { filter: brightness(0.9); }
+
 .text-on-accent { color: var(--accent-on-accent, #ffffff) !important; }
 .text-on-accent\/90 { color: color-mix(in srgb, var(--accent-on-accent, #ffffff) 90%, transparent) !important; }
 .text-on-accent\/60 { color: color-mix(in srgb, var(--accent-on-accent, #ffffff) 60%, transparent) !important; }
 .placeholder\:text-on-accent\/60::placeholder { color: color-mix(in srgb, var(--accent-on-accent, #ffffff) 60%, transparent) !important; }
+
 .text-accent { color: var(--accent-color, #f97316) !important; }
 .text-accent-secondary { color: var(--accent-secondary, #3b82f6) !important; }
 .text-accent-tertiary { color: var(--accent-tertiary, #1d4ed8) !important; }
+.text-accent-cta { color: var(--accent-cta, #ffa398) !important; }
 .border-accent { border-color: var(--accent-color, #f97316) !important; }
+.border-accent\/20 { border-color: color-mix(in srgb, var(--accent-color, #f97316) 20%, transparent) !important; }
+.border-accent\/40 { border-color: color-mix(in srgb, var(--accent-color, #f97316) 40%, transparent) !important; }
 .border-accent-secondary { border-color: var(--accent-secondary, #3b82f6) !important; }
+.ring-accent\/20 { --tw-ring-color: color-mix(in srgb, var(--accent-color, #f97316) 20%, transparent) !important; }
+.shadow-accent\/20 { --tw-shadow-color: color-mix(in srgb, var(--accent-color, #f97316) 20%, transparent) !important; }
+.shadow-accent\/25 { --tw-shadow-color: color-mix(in srgb, var(--accent-color, #f97316) 25%, transparent) !important; }
 
-/* Dark theme - when black/dark background is selected */
+.hover\:text-accent:hover { color: var(--accent-color, #f97316) !important; }
+.hover\:border-accent:hover { border-color: var(--accent-color, #f97316) !important; }
+
+/* ─── CTA button with secondary accent ─── */
+.bg-accent-cta { background-color: var(--accent-cta, #ffa398) !important; }
+.text-accent-cta-contrast { color: var(--accent-cta-contrast, #0f172a) !important; }
+
+/* ─── Glass card ─── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.glass-card-strong {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Decorative gradient orb ─── */
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  pointer-events: none;
+  background: var(--accent-color, #f97316);
+}
+.gradient-orb-cta {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.1;
+  pointer-events: none;
+  background: var(--accent-cta, #ffa398);
+}
+
+/* ─── Text outline for decorative oversized headlines ─── */
+.text-outline {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Dark theme data-attribute overrides ─── */
 [data-theme="dark"] .bg-white,
 [data-theme="dark"] header.bg-white,
 [data-theme="dark"] footer.bg-white { background-color: #0a0a0a !important; }
@@ -66,17 +129,8 @@ body {
 [data-theme="dark"] .border-gray-200,
 [data-theme="dark"] .border-gray-100 { border-color: #27272a !important; }
 [data-theme="dark"] .bg-gray-50\/50 { background-color: rgba(23, 23, 23, 0.5) !important; }
-[data-theme="dark"] a.text-blue-900,
-[data-theme="dark"] a.text-blue-600,
-[data-theme="dark"] .text-blue-500,
-[data-theme="dark"] .text-blue-600,
-[data-theme="dark"] .hover\:text-blue-600:hover { color: var(--accent-color) !important; }
-[data-theme="dark"] .bg-gray-100 { background-color: #171717 !important; }
-[data-theme="dark"] .border-blue-300 { border-color: var(--accent-color) !important; }
-[data-theme="dark"] .group-hover\:text-blue-600:hover { color: var(--accent-color) !important; }
-[data-theme="dark"] .group-hover\:border-blue-300 { border-color: var(--accent-color) !important; }
+[data-theme="dark"] .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3) !important; }
 
-/* Custom select arrow */
 select {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
   background-position: right 0.5rem center;

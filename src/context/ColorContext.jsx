@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-/** Derive secondary (lighter tint) and tertiary (darker shade) from a hex color for UI harmony */
 function deriveColorSet(hex) {
   const h = String(hex).replace(/^#/, '');
   if (h.length !== 6) return { secondary: hex, tertiary: hex };
@@ -26,7 +25,45 @@ function deriveColorSet(hex) {
   return { secondary, tertiary };
 }
 
-// Urban Stash extended color palette from brand guidelines (each with derived secondary/tertiary)
+function hexToHsl(hex) {
+  const h = String(hex).replace(/^#/, '');
+  let r = parseInt(h.slice(0, 2), 16) / 255;
+  let g = parseInt(h.slice(2, 4), 16) / 255;
+  let b = parseInt(h.slice(4, 6), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let hue = 0, sat = 0, light = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    sat = light > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) hue = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+    else if (max === g) hue = ((b - r) / d + 2) / 6;
+    else hue = ((r - g) / d + 4) / 6;
+  }
+  return [hue * 360, sat * 100, light * 100];
+}
+
+function hslToHex(h, s, l) {
+  s /= 100; l /= 100;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * Math.max(0, Math.min(1, color))).toString(16).padStart(2, '0');
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+/** Derive a warm complementary CTA color by shifting hue ~150 degrees and softening */
+function deriveCtaColor(hex) {
+  const h = String(hex).replace(/^#/, '');
+  if (h.length !== 6) return '#ffa398';
+  const [hue, sat, light] = hexToHsl(hex);
+  const ctaHue = (hue + 150) % 360;
+  const ctaSat = Math.min(85, sat * 0.8 + 20);
+  const ctaLight = Math.max(55, Math.min(75, light * 0.6 + 40));
+  return hslToHex(ctaHue, ctaSat, ctaLight);
+}
+
 export const PALETTE = [
   { name: 'Lime', hex: '#99fe1c', ...deriveColorSet('#99fe1c') },
   { name: 'Citrus', hex: '#e7fe4b' },
@@ -46,7 +83,6 @@ export const PALETTE = [
   { name: 'Blush', hex: '#f7e0e8' },
   { name: 'Rose', hex: '#f7dbd8' },
   { name: 'Coral Alt', hex: '#ff4f59' },
-  // Additional colors for more choice
   { name: 'Navy', hex: '#1e3a5f' },
   { name: 'Teal', hex: '#0d9488' },
   { name: 'Emerald', hex: '#059669' },
@@ -60,7 +96,6 @@ export const PALETTE = [
   { name: 'Charcoal', hex: '#334155' },
 ];
 
-// Background-friendly colors (light + dark options)
 export const BG_PALETTE = [
   { name: 'White', hex: '#ffffff' },
   { name: 'Black', hex: '#000000' },
@@ -82,10 +117,9 @@ export const BG_PALETTE = [
   { name: 'Lilac', hex: '#ede9fe' },
 ];
 
-const DEFAULT_ACCENT = '#f97316';
-const DEFAULT_BG = '#ffffff';
+const DEFAULT_ACCENT = '#99fe1c';
+const DEFAULT_BG = '#000000';
 
-/** Check if a hex color is dark (for switching to light text) */
 function isDarkBg(hex) {
   const h = String(hex).replace(/^#/, '');
   if (h.length !== 6) return false;
@@ -96,7 +130,6 @@ function isDarkBg(hex) {
   return luminance < 0.25;
 }
 
-/** Get contrasting text color for text on accent: white on dark accents, dark on light accents */
 export function getContrastColor(hex) {
   const h = String(hex).replace(/^#/, '');
   if (h.length !== 6) return '#ffffff';
@@ -107,7 +140,6 @@ export function getContrastColor(hex) {
   return luminance >= 0.5 ? '#0f172a' : '#ffffff';
 }
 
-/** Each main color with its pre-computed secondary and tertiary for UI harmony */
 export const PALETTE_WITH_TRIADS = PALETTE.map((c) => ({
   ...c,
   ...deriveColorSet(c.hex),
@@ -133,6 +165,7 @@ export function ColorProvider({ children }) {
   });
 
   const { secondary: accentSecondary, tertiary: accentTertiary } = deriveColorSet(accentColor);
+  const accentCta = deriveCtaColor(accentColor);
 
   useEffect(() => {
     try {
@@ -142,7 +175,17 @@ export function ColorProvider({ children }) {
     document.documentElement.style.setProperty('--accent-secondary', accentSecondary);
     document.documentElement.style.setProperty('--accent-tertiary', accentTertiary);
     document.documentElement.style.setProperty('--accent-on-accent', getContrastColor(accentColor));
-  }, [accentColor, accentSecondary, accentTertiary]);
+    document.documentElement.style.setProperty('--accent-cta', accentCta);
+    document.documentElement.style.setProperty('--accent-cta-contrast', getContrastColor(accentCta));
+    // Accent tint for dark section backgrounds: accent at 4% on black
+    const ah = String(accentColor).replace(/^#/, '');
+    if (ah.length === 6) {
+      const r = parseInt(ah.slice(0, 2), 16);
+      const g = parseInt(ah.slice(2, 4), 16);
+      const b = parseInt(ah.slice(4, 6), 16);
+      document.documentElement.style.setProperty('--bg-accent-tint', `rgba(${r},${g},${b},0.04)`);
+    }
+  }, [accentColor, accentSecondary, accentTertiary, accentCta]);
 
   useEffect(() => {
     try {
@@ -156,6 +199,7 @@ export function ColorProvider({ children }) {
     <ColorContext.Provider value={{
       accentColor, setAccentColor,
       accentSecondary, accentTertiary,
+      accentCta,
       bgColor, setBgColor,
       palette: PALETTE,
       bgPalette: BG_PALETTE,

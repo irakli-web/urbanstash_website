@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import HeaderV2 from '../components/HeaderV2';
+import FooterV2 from '../components/FooterV2';
+import LocationVideoCarousel from '../components/LocationVideoCarousel';
 import { getLocationBySlug } from '../data/locations';
 
 export default function UnitDetailPage() {
@@ -10,14 +11,14 @@ export default function UnitDetailPage() {
   const [selectedSize, setSelectedSize] = useState('small');
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [moveInDate, setMoveInDate] = useState('04/01/26');
-  const [stayMonths, setStayMonths] = useState(12);
+  const [stayMonths] = useState(12);
 
   if (!location) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Location not found</h1>
-          <Link to="/units" className="text-orange-500 hover:underline">
+          <Link to="/units" className="text-accent hover:underline">
             Back to locations
           </Link>
         </div>
@@ -34,15 +35,15 @@ export default function UnitDetailPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Header showFindStorage={false} />
+      <HeaderV2 showFindStorage={false} />
       <main>
         {/* Breadcrumb */}
-        <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-zinc-500">
+        <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-zinc-600">
           <Link to="/" className="hover:text-white">Home</Link>
-          <span className="mx-2">›</span>
+          <span className="mx-2">&rsaquo;</span>
           <Link to="/units" className="hover:text-white">Units</Link>
-          <span className="mx-2">›</span>
-          <span className="text-orange-500">{location.name}</span>
+          <span className="mx-2">&rsaquo;</span>
+          <span className="text-accent">{location.name}</span>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 pb-12">
@@ -50,34 +51,34 @@ export default function UnitDetailPage() {
             {/* Left column */}
             <div className="lg:col-span-2">
               {/* Gallery placeholder */}
-              <div className="rounded-xl bg-zinc-900 h-64 flex items-center justify-center mb-6 border border-zinc-800">
+              <div className="rounded-2xl bg-zinc-900 h-64 flex items-center justify-center mb-6 border border-white/[0.06]">
                 <span className="text-zinc-600">Gallery</span>
               </div>
 
-              <h1 className="text-3xl font-bold mb-2">{location.name}</h1>
+              <h1 className="text-3xl font-black uppercase tracking-tight mb-2">{location.name}</h1>
               <p className="text-zinc-500 mb-4">{location.address}</p>
               <div className="flex items-center gap-2 mb-6">
-                <span className="text-orange-500">★</span>
+                <span className="text-accent">&#9733;</span>
                 <span className="text-zinc-500">{location.reviewCount} Reviews</span>
               </div>
               <div className="flex gap-4 mb-8">
-                <Link to="/sizing" className="text-zinc-400 hover:text-white text-sm">
+                <Link to="/sizing" className="text-zinc-500 hover:text-accent text-sm">
                   Sizing guide
                 </Link>
-                <a href="#" className="text-zinc-400 hover:text-white text-sm">
+                <a href="#" className="text-zinc-500 hover:text-accent text-sm">
                   View on Map
                 </a>
               </div>
 
               {/* Storage Facility Features */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-orange-500 mb-4">
+                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">
                   Storage Facility Features
                 </h2>
                 <div className="grid grid-cols-2 gap-3">
                   {location.features.map((f, i) => (
                     <div key={i} className="flex items-center gap-2 text-zinc-400">
-                      <svg className="w-5 h-5 text-orange-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-5 h-5 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       {f}
@@ -88,31 +89,31 @@ export default function UnitDetailPage() {
 
               {/* Access Hours */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-orange-500 mb-2">Access Hours</h2>
+                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-2">Access Hours</h2>
                 <p className="text-zinc-400">{location.accessHours}</p>
               </div>
 
               {/* Availability */}
               <div className="mb-8">
-                <h2 className="text-xl font-semibold text-orange-500 mb-4">AVAILABILITY</h2>
+                <h2 className="text-xl font-black text-accent uppercase tracking-wide mb-4">Availability</h2>
                 <p className="text-zinc-500 text-sm mb-4">Sort By Size</p>
                 <div className="space-y-4">
                   {location.units.map((unit) => (
                     <div
                       key={unit.id}
-                      className="flex items-center justify-between p-4 rounded-lg border border-zinc-700 bg-zinc-900/50 hover:border-orange-500/50 transition-colors"
+                      className="flex items-center justify-between p-4 rounded-xl glass-card hover:bg-white/[0.06] transition-colors"
                     >
                       <div>
                         <p className="font-medium text-white">{unit.size} ({unit.sqft} sq ft)</p>
                         <p className="text-sm text-zinc-500">{unit.description}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-orange-500 font-semibold text-xl">
+                        <p className="text-accent font-bold text-xl">
                           ${unit.price}/month
                         </p>
                         <button
                           onClick={() => setSelectedUnit(unit)}
-                          className="text-sm text-zinc-400 hover:text-orange-500 mt-1"
+                          className="text-sm text-zinc-500 hover:text-accent mt-1"
                         >
                           Show All Available Units
                         </button>
@@ -124,50 +125,44 @@ export default function UnitDetailPage() {
 
               {/* About this space */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-orange-500 mb-4">About this space</h2>
+                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">About this space</h2>
                 <p className="text-zinc-400 leading-relaxed">{location.about}</p>
               </div>
 
+              {location.videos?.length > 0 && (
+                <LocationVideoCarousel
+                  title="View our story & location videos"
+                  items={location.videos}
+                />
+              )}
+
               {/* How it works */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-orange-500 mb-4">How It Works</h2>
+                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">How It Works</h2>
                 <div className="space-y-4">
-                  <div>
-                    <h3 className="font-medium text-white mb-1">Reserve Online</h3>
-                    <p className="text-zinc-500 text-sm">
-                      Choose your unit size and reserve for free. No credit card required upfront.
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-white mb-1">Get Access</h3>
-                    <p className="text-zinc-500 text-sm">
-                      Receive your unique gate code and lock for instant access to your unit.
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-white mb-1">Move-In</h3>
-                    <p className="text-zinc-500 text-sm">
-                      Complete your rental online or in-person. Bring your items to the facility.
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-white mb-1">Manage Account</h3>
-                    <p className="text-zinc-500 text-sm">
-                      Pay bills, check history, and manage your rental from our mobile app.
-                    </p>
-                  </div>
+                  {[
+                    { t: 'Reserve Online', d: 'Choose your unit size and reserve for free. No credit card required upfront.' },
+                    { t: 'Get Access', d: 'Receive your unique gate code and lock for instant access to your unit.' },
+                    { t: 'Move-In', d: 'Complete your rental online or in-person. Bring your items to the facility.' },
+                    { t: 'Manage Account', d: 'Pay bills, check history, and manage your rental from our mobile app.' },
+                  ].map((step, i) => (
+                    <div key={i} className="glass-card rounded-xl p-4 hover:bg-white/[0.06]">
+                      <h3 className="font-semibold text-white mb-1">{step.t}</h3>
+                      <p className="text-zinc-500 text-sm">{step.d}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
 
               {/* Reviews */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-orange-500 mb-4">Reviews</h2>
+                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">Reviews</h2>
                 <div className="space-y-4">
                   {location.reviews.map((r, i) => (
-                    <div key={i} className="p-4 rounded-lg border border-zinc-800">
+                    <div key={i} className="p-4 rounded-xl glass-card">
                       <p className="text-zinc-300 mb-2">&ldquo;{r.text}&rdquo;</p>
                       <p className="font-medium text-white">{r.author}</p>
-                      <p className="text-sm text-zinc-500">{r.time}</p>
+                      <p className="text-sm text-zinc-600">{r.time}</p>
                     </div>
                   ))}
                 </div>
@@ -176,17 +171,17 @@ export default function UnitDetailPage() {
 
             {/* Right column - Booking card */}
             <div className="lg:col-span-1">
-              <div className="sticky top-24 rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-                <h3 className="text-lg font-semibold mb-4">Select your unit size</h3>
+              <div className="sticky top-24 rounded-2xl glass-card-strong p-6">
+                <h3 className="text-lg font-bold mb-4">Select your unit size</h3>
                 <div className="flex gap-2 mb-4">
                   {['small', 'medium', 'large'].map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-colors ${
+                      className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-colors ${
                         selectedSize === size
-                          ? 'bg-orange-500 text-white'
-                          : 'bg-zinc-800 text-zinc-400 hover:text-white'
+                          ? 'bg-accent text-on-accent'
+                          : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
                       }`}
                     >
                       {size}
@@ -194,7 +189,7 @@ export default function UnitDetailPage() {
                   ))}
                 </div>
                 <p className="text-zinc-500 text-sm mb-4">What size do I need?</p>
-                <select className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white mb-4 focus:outline-none focus:border-orange-500">
+                <select className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-accent">
                   <option>Select unit</option>
                   {filteredUnits.map((u) => (
                     <option key={u.id} value={u.id}>
@@ -203,27 +198,27 @@ export default function UnitDetailPage() {
                   ))}
                 </select>
                 <div className="mb-4">
-                  <label className="block text-sm text-zinc-500 mb-2">MOVE-IN</label>
+                  <label className="block text-sm text-zinc-500 mb-2 uppercase tracking-wide">Move-in</label>
                   <input
                     type="text"
                     value={moveInDate}
                     onChange={(e) => setMoveInDate(e.target.value)}
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-orange-500"
+                    className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div className="mb-6">
-                  <label className="block text-sm text-zinc-500 mb-2">ESTIMATED STAY</label>
+                  <label className="block text-sm text-zinc-500 mb-2 uppercase tracking-wide">Estimated stay</label>
                   <input
                     type="text"
                     value={`${stayMonths} Months`}
                     readOnly
-                    className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white"
+                    className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white"
                   />
                 </div>
-                <button className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors">
+                <button className="w-full py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full hover:opacity-90">
                   Book Now
                 </button>
-                <p className="text-center text-zinc-500 text-sm mt-3">
+                <p className="text-center text-zinc-600 text-sm mt-3">
                   You won&apos;t be charged yet. Cancel anytime
                 </p>
               </div>
@@ -231,7 +226,7 @@ export default function UnitDetailPage() {
           </div>
         </div>
       </main>
-      <Footer />
+      <FooterV2 />
     </div>
   );
 }
