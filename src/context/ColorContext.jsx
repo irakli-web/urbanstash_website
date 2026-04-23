@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 function deriveColorSet(hex) {
   const h = String(hex).replace(/^#/, '');
@@ -53,6 +53,15 @@ function hslToHex(h, s, l) {
   return `#${f(0)}${f(8)}${f(4)}`;
 }
 
+/** Normalize user or stored hex to #rrggbb (lowercase) */
+export function normalizeHex(input) {
+  if (input == null || typeof input !== 'string') return null;
+  const v = input.trim();
+  const raw = v.startsWith('#') ? v.slice(1) : v;
+  if (!/^[0-9A-Fa-f]{6}$/.test(raw)) return null;
+  return `#${raw.toLowerCase()}`;
+}
+
 /** Derive a warm complementary CTA color by shifting hue ~150 degrees and softening */
 function deriveCtaColor(hex) {
   const h = String(hex).replace(/^#/, '');
@@ -65,59 +74,68 @@ function deriveCtaColor(hex) {
 }
 
 export const PALETTE = [
-  { name: 'Lime', hex: '#99fe1c', ...deriveColorSet('#99fe1c') },
+  // Extended brand sheet (accent-friendly)
+  { name: 'Pale Pink', hex: '#f9e2e8' },
+  { name: 'Rose Pink', hex: '#e8b4be' },
+  { name: 'Neon Aqua', hex: '#7dffc1' },
+  { name: 'Mint', hex: '#eef7f2' },
+  { name: 'Cloud', hex: '#e6e2dc' },
+  { name: 'Icing Sugar', hex: '#f4f8fc' },
+  { name: 'Coral', hex: '#f4a896' },
+  { name: 'Extra', hex: '#e8f4fc' },
+  { name: '911 Blue', hex: '#1fd3ff' },
+  { name: 'Peach', hex: '#ffcfbe' },
+  { name: 'Sock Yellow', hex: '#ffe94d' },
+  { name: 'Watermelon', hex: '#ff5c7c' },
+  { name: 'Black', hex: '#000000' },
+  // Earlier brand palettes
+  { name: 'Mint Julep', hex: '#c4dcc8' },
+  { name: 'Cloud Dancer', hex: '#e0d8d0' },
+  { name: 'Espresso', hex: '#1a1207' },
+  { name: 'Peach Coral', hex: '#f8977d' },
+  { name: 'Lime', hex: '#99fe1c' },
   { name: 'Citrus', hex: '#e7fe4b' },
-  { name: 'Stone', hex: '#efeee9' },
-  { name: 'Coral', hex: '#ff533d' },
-  { name: 'Peach', hex: '#fecfbd' },
+  { name: 'Coral Deep', hex: '#ff533d' },
   { name: 'Salmon', hex: '#ffa398' },
   { name: 'Lavender', hex: '#f1f3ff' },
   { name: 'Purple', hex: '#d1c8ff' },
   { name: 'Yellow', hex: '#f0ff02' },
-  { name: 'Cream', hex: '#faffc7' },
   { name: 'Sky Blue', hex: '#98d3f3' },
-  { name: 'Mint', hex: '#daf2f2' },
   { name: 'Aqua', hex: '#9afbda' },
   { name: 'Seafoam', hex: '#d3efe1' },
   { name: 'Pink', hex: '#fdc8ce' },
   { name: 'Blush', hex: '#f7e0e8' },
   { name: 'Rose', hex: '#f7dbd8' },
   { name: 'Coral Alt', hex: '#ff4f59' },
-  { name: 'Navy', hex: '#1e3a5f' },
   { name: 'Teal', hex: '#0d9488' },
   { name: 'Emerald', hex: '#059669' },
   { name: 'Orange', hex: '#f97316' },
   { name: 'Amber', hex: '#f59e0b' },
-  { name: 'Red', hex: '#dc2626' },
   { name: 'Blue', hex: '#2563eb' },
   { name: 'Indigo', hex: '#4f46e5' },
   { name: 'Violet', hex: '#7c3aed' },
-  { name: 'Slate', hex: '#64748b' },
-  { name: 'Charcoal', hex: '#334155' },
 ];
 
 export const BG_PALETTE = [
+  { name: 'Cloud (BG)', hex: '#e6e2dc' },
+  { name: 'Icing Sugar', hex: '#f4f8fc' },
+  { name: 'Mint', hex: '#eef7f2' },
+  { name: 'Pale Pink', hex: '#f9e2e8' },
+  { name: 'Extra', hex: '#e8f4fc' },
   { name: 'White', hex: '#ffffff' },
+  { name: 'Cloud Dancer', hex: '#e0d8d0' },
+  { name: 'Mint Julep', hex: '#c4dcc8' },
+  { name: 'Peach', hex: '#ffcfbe' },
   { name: 'Black', hex: '#000000' },
+  { name: 'Espresso', hex: '#1a1207' },
   { name: 'Dark Gray', hex: '#0a0a0a' },
-  { name: 'Charcoal Dark', hex: '#171717' },
-  { name: 'Cream', hex: '#faffc7' },
+  { name: 'Charcoal', hex: '#171717' },
   { name: 'Lavender', hex: '#f1f3ff' },
-  { name: 'Mint', hex: '#daf2f2' },
-  { name: 'Seafoam', hex: '#d3efe1' },
-  { name: 'Blush', hex: '#f7e0e8' },
   { name: 'Rose', hex: '#f7dbd8' },
-  { name: 'Peach', hex: '#fecfbd' },
-  { name: 'Stone', hex: '#efeee9' },
   { name: 'Light Gray', hex: '#f3f4f6' },
-  { name: 'Cool Gray', hex: '#f1f5f9' },
-  { name: 'Warm Gray', hex: '#fafaf9' },
-  { name: 'Sky', hex: '#e0f2fe' },
-  { name: 'Sage', hex: '#ecfdf5' },
-  { name: 'Lilac', hex: '#ede9fe' },
 ];
 
-const DEFAULT_ACCENT = '#99fe1c';
+const DEFAULT_ACCENT = '#7dffc1';
 const DEFAULT_BG = '#000000';
 
 function isDarkBg(hex) {
@@ -140,29 +158,36 @@ export function getContrastColor(hex) {
   return luminance >= 0.5 ? '#0f172a' : '#ffffff';
 }
 
-export const PALETTE_WITH_TRIADS = PALETTE.map((c) => ({
-  ...c,
-  ...deriveColorSet(c.hex),
-}));
-
 const ColorContext = createContext();
 
 export function ColorProvider({ children }) {
-  const [accentColor, setAccentColor] = useState(() => {
+  const [accentColor, setAccentColorState] = useState(() => {
     try {
-      return localStorage.getItem('urbanstash-accent') || DEFAULT_ACCENT;
+      const raw = localStorage.getItem('urbanstash-accent');
+      return normalizeHex(raw) || DEFAULT_ACCENT;
     } catch {
       return DEFAULT_ACCENT;
     }
   });
 
-  const [bgColor, setBgColor] = useState(() => {
+  const [bgColor, setBgColorState] = useState(() => {
     try {
-      return localStorage.getItem('urbanstash-bg') || DEFAULT_BG;
+      const raw = localStorage.getItem('urbanstash-bg');
+      return normalizeHex(raw) || DEFAULT_BG;
     } catch {
       return DEFAULT_BG;
     }
   });
+
+  const setAccentColor = useCallback((v) => {
+    const n = normalizeHex(v);
+    if (n) setAccentColorState(n);
+  }, []);
+
+  const setBgColor = useCallback((v) => {
+    const n = normalizeHex(v);
+    if (n) setBgColorState(n);
+  }, []);
 
   const { secondary: accentSecondary, tertiary: accentTertiary } = deriveColorSet(accentColor);
   const accentCta = deriveCtaColor(accentColor);
@@ -198,12 +223,9 @@ export function ColorProvider({ children }) {
   return (
     <ColorContext.Provider value={{
       accentColor, setAccentColor,
-      accentSecondary, accentTertiary,
-      accentCta,
       bgColor, setBgColor,
       palette: PALETTE,
       bgPalette: BG_PALETTE,
-      deriveColorSet,
     }}>
       {children}
     </ColorContext.Provider>

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import HeaderV2 from '../components/HeaderV2';
-import FooterV2 from '../components/FooterV2';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import LocationVideoCarousel from '../components/LocationVideoCarousel';
 import { getLocationBySlug } from '../data/locations';
+
+const STAY_MONTHS = 12;
 
 export default function UnitDetailPage() {
   const { slug } = useParams();
   const location = getLocationBySlug(slug);
   const [selectedSize, setSelectedSize] = useState('small');
-  const [selectedUnit, setSelectedUnit] = useState(null);
   const [moveInDate, setMoveInDate] = useState('04/01/26');
-  const [stayMonths] = useState(12);
 
   if (!location) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen bg-theme text-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Location not found</h1>
           <Link to="/units" className="text-accent hover:underline">
@@ -34,8 +34,8 @@ export default function UnitDetailPage() {
       : location.units.filter((u) => u.sqft > 50);
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <HeaderV2 showFindStorage={false} />
+    <div className="min-h-screen bg-theme text-white">
+      <Header showFindStorage={false} />
       <main>
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-zinc-600">
@@ -50,7 +50,6 @@ export default function UnitDetailPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left column */}
             <div className="lg:col-span-2">
-              {/* Gallery placeholder */}
               <div className="rounded-2xl bg-zinc-900 h-64 flex items-center justify-center mb-6 border border-white/[0.06]">
                 <span className="text-zinc-600">Gallery</span>
               </div>
@@ -65,12 +64,9 @@ export default function UnitDetailPage() {
                 <Link to="/sizing" className="text-zinc-500 hover:text-accent text-sm">
                   Sizing guide
                 </Link>
-                <a href="#" className="text-zinc-500 hover:text-accent text-sm">
-                  View on Map
-                </a>
               </div>
 
-              {/* Storage Facility Features */}
+              {/* Features */}
               <div className="mb-8">
                 <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">
                   Storage Facility Features
@@ -87,7 +83,7 @@ export default function UnitDetailPage() {
                 </div>
               </div>
 
-              {/* Access Hours */}
+              {/* Hours */}
               <div className="mb-8">
                 <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-2">Access Hours</h2>
                 <p className="text-zinc-400">{location.accessHours}</p>
@@ -96,7 +92,6 @@ export default function UnitDetailPage() {
               {/* Availability */}
               <div className="mb-8">
                 <h2 className="text-xl font-black text-accent uppercase tracking-wide mb-4">Availability</h2>
-                <p className="text-zinc-500 text-sm mb-4">Sort By Size</p>
                 <div className="space-y-4">
                   {location.units.map((unit) => (
                     <div
@@ -107,23 +102,13 @@ export default function UnitDetailPage() {
                         <p className="font-medium text-white">{unit.size} ({unit.sqft} sq ft)</p>
                         <p className="text-sm text-zinc-500">{unit.description}</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-accent font-bold text-xl">
-                          ${unit.price}/month
-                        </p>
-                        <button
-                          onClick={() => setSelectedUnit(unit)}
-                          className="text-sm text-zinc-500 hover:text-accent mt-1"
-                        >
-                          Show All Available Units
-                        </button>
-                      </div>
+                      <p className="text-accent font-bold text-xl">${unit.price}/month</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* About this space */}
+              {/* About */}
               <div className="mb-8">
                 <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">About this space</h2>
                 <p className="text-zinc-400 leading-relaxed">{location.about}</p>
@@ -169,7 +154,7 @@ export default function UnitDetailPage() {
               </div>
             </div>
 
-            {/* Right column - Booking card */}
+            {/* Booking sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-24 rounded-2xl glass-card-strong p-6">
                 <h3 className="text-lg font-bold mb-4">Select your unit size</h3>
@@ -188,7 +173,9 @@ export default function UnitDetailPage() {
                     </button>
                   ))}
                 </div>
-                <p className="text-zinc-500 text-sm mb-4">What size do I need?</p>
+                <Link to="/sizing" className="block text-zinc-500 hover:text-accent text-sm mb-4">
+                  What size do I need?
+                </Link>
                 <select className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-accent">
                   <option>Select unit</option>
                   {filteredUnits.map((u) => (
@@ -210,7 +197,7 @@ export default function UnitDetailPage() {
                   <label className="block text-sm text-zinc-500 mb-2 uppercase tracking-wide">Estimated stay</label>
                   <input
                     type="text"
-                    value={`${stayMonths} Months`}
+                    value={`${STAY_MONTHS} Months`}
                     readOnly
                     className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white"
                   />
@@ -226,7 +213,7 @@ export default function UnitDetailPage() {
           </div>
         </div>
       </main>
-      <FooterV2 />
+      <Footer />
     </div>
   );
 }

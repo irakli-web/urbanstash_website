@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Urbanstash Soft';
+  src: url('./fonts/UrbanstashSoft-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -12,6 +20,68 @@
   }
 }
 
+:root {
+  --bg-color: #000000;
+  --accent-color: #7dffc1;
+  --font-site: 'SV Basic Manual', 'Courier New', Courier, monospace;
+  /* Hero section headings (controlled by HeadingFontContext) */
+  --font-hero-title: 'Urbanstash Soft', 'SV Basic Manual', 'Courier New', Courier, monospace;
+  --font-hero-subtitle: var(--font-site);
+  /* Navigation & footer */
+  --font-nav: var(--font-site);
+  --font-footer: var(--font-site);
+  /* Body text */
+  --font-body: var(--font-site);
+  /* Body headings */
+  --font-h1: var(--font-site);
+  --font-h2: var(--font-site);
+  --font-h3: var(--font-site);
+  /* CTA buttons — global */
+  --font-cta: var(--font-site);
+}
+
+/* Home hero — always light panel (not overridden by dark theme) */
+.home-hero-light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Body text — paragraphs, labels, list content */
+p, li, td, th, label, span { font-family: var(--font-body) !important; }
+
+/* Spans inside headings inherit the heading font, not body */
+h1 span, h2 span, h3 span { font-family: inherit !important; }
+
+/* Global body heading defaults */
+h1 { font-family: var(--font-h1) !important; }
+h2 { font-family: var(--font-h2) !important; }
+h3 { font-family: var(--font-h3) !important; }
+
+/* Section-level title headings — respond to Body H1 panel control */
+.section-title { font-family: var(--font-h1) !important; }
+
+/* Hero section h1 override — wins over body h1 via !important + higher specificity */
+.hero-section h1 { font-family: var(--font-hero-title) !important; }
+
+/* Hero subtitle paragraph */
+.hero-subtitle { font-family: var(--font-hero-subtitle); }
+
+/* Navigation & footer font controls */
+.site-nav, .site-nav * { font-family: var(--font-nav) !important; }
+.site-footer, .site-footer * { font-family: var(--font-footer) !important; }
+
+/* Stencil-style mark on hero image (reference corner badge) */
+.hero-image-n-mark {
+  font-family: Impact, Haettenschweiler, 'Franklin Gothic Bold', 'Arial Narrow Bold', sans-serif;
+  color: #f4f4f4;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  text-shadow:
+    0 0 0.5px rgba(255, 255, 255, 0.4),
+    1px 1px 0 rgba(0, 0, 0, 0.15);
+  transform: scaleX(1.08);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -19,10 +89,10 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: var(--font-site);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000;
+  background-color: var(--bg-color, #000000);
 }
 
 a, button, input, select, details summary {
@@ -73,7 +143,10 @@ a, button, input, select, details summary {
 .hover\:border-accent:hover { border-color: var(--accent-color, #f97316) !important; }
 
 /* ─── CTA button with secondary accent ─── */
-.bg-accent-cta { background-color: var(--accent-cta, #ffa398) !important; }
+.bg-accent-cta {
+  background-color: var(--accent-cta, #ffa398) !important;
+  font-family: var(--font-cta);
+}
 .text-accent-cta-contrast { color: var(--accent-cta-contrast, #0f172a) !important; }
 
 /* ─── Glass card ─── */
@@ -130,6 +203,60 @@ a, button, input, select, details summary {
 [data-theme="dark"] .border-gray-100 { border-color: #27272a !important; }
 [data-theme="dark"] .bg-gray-50\/50 { background-color: rgba(23, 23, 23, 0.5) !important; }
 [data-theme="dark"] .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3) !important; }
+
+/* ─── Light theme overrides — adapt dark editorial design for light backgrounds ─── */
+[data-theme="light"] .bg-charcoal { background-color: #f3f4f6 !important; }
+[data-theme="light"] .bg-navy { background-color: #eef2f7 !important; }
+[data-theme="light"] .bg-deep { background-color: #f9fafb !important; }
+[data-theme="light"] .bg-accent-tint { background-color: color-mix(in srgb, var(--accent-color, #f97316) 5%, white) !important; }
+
+[data-theme="light"] .glass-card {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+[data-theme="light"] .glass-card-strong {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="light"] .text-white { color: #111827 !important; }
+[data-theme="light"] .text-zinc-300 { color: #374151 !important; }
+[data-theme="light"] .text-zinc-400 { color: #6b7280 !important; }
+[data-theme="light"] .text-zinc-500 { color: #9ca3af !important; }
+[data-theme="light"] .text-zinc-600 { color: #d1d5db !important; }
+
+[data-theme="light"] .border-white\/\[0\.04\],
+[data-theme="light"] .border-white\/\[0\.06\] { border-color: rgba(0, 0, 0, 0.08) !important; }
+
+[data-theme="light"] .gradient-orb { opacity: 0.08; }
+[data-theme="light"] .gradient-orb-cta { opacity: 0.06; }
+
+[data-theme="light"] .text-outline {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] header:not(.header-home-light) {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Home minimal hero: always crisp white bar (wins over theme) */
+header.header-home-light {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+[data-theme="light"] header .text-zinc-400 { color: #6b7280 !important; }
+[data-theme="light"] header .text-zinc-500 { color: #9ca3af !important; }
+[data-theme="light"] header .border-white\/10,
+[data-theme="light"] header .border-white\/\[0\.06\] { border-color: rgba(0, 0, 0, 0.1) !important; }
+
+[data-theme="light"] footer .bg-black { background-color: #111827 !important; }
+[data-theme="light"] footer .text-zinc-500 { color: #9ca3af !important; }
+[data-theme="light"] footer .text-zinc-600 { color: #d1d5db !important; }
+
+[data-theme="light"] ::-webkit-scrollbar-track { background: #f3f4f6; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: #d1d5db; }
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 
 select {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");

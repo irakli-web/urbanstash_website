@@ -1,11 +1,11 @@
 import { faqEntries } from '../data/sizes';
 
-export default function PageFaqSectionV2() {
+export default function FaqSection() {
   return (
     <section className="bg-charcoal py-20 md:py-24 px-4 md:px-6 border-t border-white/[0.04]">
       <div className="max-w-3xl mx-auto">
         <p className="text-accent text-xs font-bold uppercase tracking-widest text-center mb-3">Got questions?</p>
-        <h2 className="text-3xl md:text-4xl font-black text-white text-center mb-12 uppercase tracking-tight">
+        <h2 className="section-title text-3xl md:text-4xl font-black text-white text-center mb-12 uppercase tracking-tight">
           FAQ
         </h2>
         <div className="space-y-3">

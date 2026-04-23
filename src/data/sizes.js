@@ -16,18 +16,6 @@ export const whyStashItems = [
   { title: 'Protected & monitored', desc: 'Secure facilities with 24/7 monitoring and smart access control. Protection plan included with every unit.' },
 ];
 
-export const faqItems = [
-  'How do I reserve a storage unit online?',
-  'Are my payments secure on your website?',
-  'When can I access my storage unit?',
-  'What size storage unit do I need?',
-  'Are all storage units the same height?',
-  'Can I cancel my storage anytime?',
-  'What security measures are in place?',
-  'Do unit sizes and layouts vary by location?',
-];
-
-/** FAQ with answers for v2 accordion sections */
 export const faqEntries = [
   {
     q: 'How do I reserve a storage unit online?',
