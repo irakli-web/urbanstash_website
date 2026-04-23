@@ -46,8 +46,8 @@
   color: #000000 !important;
 }
 
-/* Body text — paragraphs, labels, list content */
-p, li, td, th, label, span { font-family: var(--font-body) !important; }
+/* Body text — paragraphs, labels, list content, links */
+p, li, td, th, label, span, a { font-family: var(--font-body) !important; }
 
 /* Spans inside headings inherit the heading font, not body */
 h1 span, h2 span, h3 span { font-family: inherit !important; }
@@ -224,6 +224,19 @@ a, button, input, select, details summary {
 [data-theme="light"] .text-zinc-400 { color: #6b7280 !important; }
 [data-theme="light"] .text-zinc-500 { color: #9ca3af !important; }
 [data-theme="light"] .text-zinc-600 { color: #d1d5db !important; }
+
+/* Permanently dark sections (bg-black) keep white text even in light theme */
+[data-theme="light"] .bg-black .text-white,
+[data-theme="light"] .bg-black h1,
+[data-theme="light"] .bg-black h2,
+[data-theme="light"] .bg-black h3 { color: #ffffff !important; }
+[data-theme="light"] .bg-black .text-zinc-300 { color: #d4d4d8 !important; }
+[data-theme="light"] .bg-black .text-zinc-400 { color: #a1a1aa !important; }
+[data-theme="light"] .bg-black .text-zinc-500 { color: #71717a !important; }
+[data-theme="light"] .bg-black .glass-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
 
 [data-theme="light"] .border-white\/\[0\.04\],
 [data-theme="light"] .border-white\/\[0\.06\] { border-color: rgba(0, 0, 0, 0.08) !important; }
