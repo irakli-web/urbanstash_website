@@ -91,7 +91,7 @@ export default function UnitsPage() {
 
                         <Link
                           to={`/units/${loc.slug}`}
-                          className="block w-full text-center py-3.5 bg-accent-cta text-accent-cta-contrast font-bold rounded-full hover:opacity-90"
+                          className="cta-btn block w-full text-center py-3.5 bg-accent-cta text-accent-cta-contrast font-bold rounded-full hover:opacity-90"
                         >
                           Check availability
                         </Link>

@@ -70,7 +70,7 @@ export default function Header({ showFindStorage = true, variant = 'default' }) 
           ))}
           <Link
             to="/units"
-            className="ml-3 bg-accent text-on-accent px-5 py-2 rounded-full font-semibold text-sm inline-flex items-center gap-1.5 hover:opacity-90"
+            className="cta-btn ml-3 bg-accent text-on-accent px-5 py-2 rounded-full font-semibold text-sm inline-flex items-center gap-1.5 hover:opacity-90"
           >
             Find Storage
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -266,7 +266,7 @@ export default function Header({ showFindStorage = true, variant = 'default' }) 
                 {link.label}
               </Link>
             ))}
-            <Link to="/units" className="py-3 px-3 text-center bg-accent text-on-accent rounded-xl font-semibold mt-1" onClick={() => setMenuOpen(false)}>
+            <Link to="/units" className="cta-btn py-3 px-3 text-center bg-accent text-on-accent rounded-xl font-semibold mt-1" onClick={() => setMenuOpen(false)}>
               Find Storage
             </Link>
             <button

@@ -73,7 +73,7 @@ export default function AboutPage() {
             </p>
             <Link
               to="/units"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full text-base hover:opacity-90"
+              className="cta-btn inline-flex items-center gap-2 px-8 py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full text-base hover:opacity-90"
             >
               Find storage
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

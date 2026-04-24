@@ -49,6 +49,9 @@
 /* Body text — paragraphs, labels, list content, links */
 p, li, td, th, label, span, a { font-family: var(--font-body) !important; }
 
+/* CTA buttons override body-link rule */
+.cta-btn { font-family: var(--font-cta) !important; }
+
 /* Spans inside headings inherit the heading font, not body */
 h1 span, h2 span, h3 span { font-family: inherit !important; }
 
@@ -59,6 +62,8 @@ h3 { font-family: var(--font-h3) !important; }
 
 /* Section-level title headings — respond to Body H1 panel control */
 .section-title { font-family: var(--font-h1) !important; }
+/* Section title mix — accent span gets its own font */
+.section-title span { font-family: var(--font-section-mix, inherit) !important; }
 
 /* Hero section h1 override — wins over body h1 via !important + higher specificity */
 .hero-section h1 { font-family: var(--font-hero-title) !important; }

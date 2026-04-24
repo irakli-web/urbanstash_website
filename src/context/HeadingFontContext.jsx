@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 export const HEADING_FONT_CHOICES = [
+  { id: 'inherit', label: '— Same as title —', family: 'inherit', googleHref: null },
   { id: 'site', label: 'Site default', family: 'var(--font-site)', googleHref: null },
   {
     id: 'urban-soft',
@@ -31,7 +32,7 @@ export const HEADING_FONT_CHOICES = [
   },
   {
     id: 'space-grotesk',
-    label: 'Space Grotesk',
+    label: '★ Space Grotesk',
     family: "'Space Grotesk', sans-serif",
     googleHref: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap',
   },
@@ -79,7 +80,7 @@ export const HEADING_FONT_CHOICES = [
   },
   {
     id: 'universal-typeface',
-    label: 'Noto Sans',
+    label: '★ Noto Sans',
     family: "'Noto Sans', sans-serif",
     googleHref: 'https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap',
   },
@@ -97,21 +98,33 @@ export const HEADING_FONT_CHOICES = [
   },
   {
     id: 'manrope',
-    label: 'Manrope',
+    label: '★ Manrope',
     family: "'Manrope', sans-serif",
     googleHref: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap',
   },
   {
     id: 'plus-jakarta-sans',
-    label: 'Plus Jakarta Sans',
+    label: '★ Plus Jakarta Sans',
     family: "'Plus Jakarta Sans', sans-serif",
     googleHref: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap',
   },
   {
     id: 'general-sans',
-    label: 'General Sans',
+    label: '★ General Sans',
     family: "'General Sans', sans-serif",
     googleHref: 'https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap',
+  },
+  {
+    id: 'instrument-sans',
+    label: '★ Instrument Sans',
+    family: "'Instrument Sans', sans-serif",
+    googleHref: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap',
+  },
+  {
+    id: 'barlow-condensed',
+    label: '★ Barlow Condensed',
+    family: "'Barlow Condensed', sans-serif",
+    googleHref: 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&display=swap',
   },
 ];
 
@@ -125,6 +138,7 @@ const DEFAULTS = {
   h1:           'site',
   h2:           'site',
   h3:           'site',
+  sectionMix:   'inherit',
 };
 
 const LS_KEYS = {
@@ -137,6 +151,7 @@ const LS_KEYS = {
   h1:           'urbanstash-font-h1',
   h2:           'urbanstash-font-h2',
   h3:           'urbanstash-font-h3',
+  sectionMix:   'urbanstash-font-section-mix',
 };
 
 const CSS_VARS = {
@@ -149,6 +164,7 @@ const CSS_VARS = {
   h1:           '--font-h1',
   h2:           '--font-h2',
   h3:           '--font-h3',
+  sectionMix:   '--font-section-mix',
 };
 
 function loadStylesheetOnce(elementId, href) {
@@ -184,6 +200,7 @@ export function HeadingFontProvider({ children }) {
   const [h1,           setH1State]           = useState(() => readStored(LS_KEYS.h1,           DEFAULTS.h1));
   const [h2,           setH2State]           = useState(() => readStored(LS_KEYS.h2,           DEFAULTS.h2));
   const [h3,           setH3State]           = useState(() => readStored(LS_KEYS.h3,           DEFAULTS.h3));
+  const [sectionMix,   setSectionMixState]   = useState(() => readStored(LS_KEYS.sectionMix,   DEFAULTS.sectionMix));
 
   const setHeroTitle    = useCallback((id) => { if (!isValidChoiceId(id)) return; setHeroTitleState(id);    try { localStorage.setItem(LS_KEYS.heroTitle,    id); } catch {} }, []);
   const setHeroSubtitle = useCallback((id) => { if (!isValidChoiceId(id)) return; setHeroSubtitleState(id); try { localStorage.setItem(LS_KEYS.heroSubtitle, id); } catch {} }, []);
@@ -194,15 +211,16 @@ export function HeadingFontProvider({ children }) {
   const setH1           = useCallback((id) => { if (!isValidChoiceId(id)) return; setH1State(id);           try { localStorage.setItem(LS_KEYS.h1,           id); } catch {} }, []);
   const setH2           = useCallback((id) => { if (!isValidChoiceId(id)) return; setH2State(id);           try { localStorage.setItem(LS_KEYS.h2,           id); } catch {} }, []);
   const setH3           = useCallback((id) => { if (!isValidChoiceId(id)) return; setH3State(id);           try { localStorage.setItem(LS_KEYS.h3,           id); } catch {} }, []);
+  const setSectionMix   = useCallback((id) => { if (!isValidChoiceId(id)) return; setSectionMixState(id);   try { localStorage.setItem(LS_KEYS.sectionMix,   id); } catch {} }, []);
 
   useEffect(() => {
-    const entries = { heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3 };
+    const entries = { heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3, sectionMix };
     for (const [key, choiceId] of Object.entries(entries)) {
       const choice = HEADING_FONT_CHOICES.find((c) => c.id === choiceId) || HEADING_FONT_CHOICES[0];
       if (choice.googleHref) loadStylesheetOnce(`heading-font-${choice.id}`, choice.googleHref);
       document.documentElement.style.setProperty(CSS_VARS[key], choice.family);
     }
-  }, [heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3]);
+  }, [heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3, sectionMix]);
 
   const value = useMemo(() => ({
     heroTitle, setHeroTitle,
@@ -214,9 +232,10 @@ export function HeadingFontProvider({ children }) {
     h1, setH1,
     h2, setH2,
     h3, setH3,
+    sectionMix, setSectionMix,
     choices: HEADING_FONT_CHOICES,
-  }), [heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3,
-       setHeroTitle, setHeroSubtitle, setCta, setNav, setFooter, setBody, setH1, setH2, setH3]);
+  }), [heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3, sectionMix,
+       setHeroTitle, setHeroSubtitle, setCta, setNav, setFooter, setBody, setH1, setH2, setH3, setSectionMix]);
 
   return <HeadingFontContext.Provider value={value}>{children}</HeadingFontContext.Provider>;
 }

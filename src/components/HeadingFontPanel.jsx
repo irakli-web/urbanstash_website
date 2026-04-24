@@ -59,8 +59,9 @@ export default function HeadingFontPanel({ isLight }) {
         <p className={colTitleCls}>Body</p>
         <div className="space-y-2.5">
           <Field label="Body Text"     valueKey="body" setKey="setBody" />
-          <Field label="Section Title" valueKey="h1"   setKey="setH1" />
-          <Field label="Sub-heading"   valueKey="h2"   setKey="setH2" />
+          <Field label="Section Title" valueKey="h1"         setKey="setH1" />
+          <Field label="↳ Title Mix"  valueKey="sectionMix" setKey="setSectionMix" />
+          <Field label="Sub-heading"  valueKey="h2"         setKey="setH2" />
           <Field label="Card Title"    valueKey="h3"   setKey="setH3" />
         </div>
       </div>

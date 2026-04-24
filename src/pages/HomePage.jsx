@@ -103,7 +103,7 @@ export default function HomePage() {
                 </p>
                 <Link
                   to="/units"
-                  className="inline-flex items-center justify-center self-start px-9 py-3.5 rounded-full text-[0.85rem] md:text-[0.9rem] font-medium bg-accent text-on-accent hover:opacity-90 transition-opacity shadow-sm"
+                  className="cta-btn inline-flex items-center justify-center self-start px-9 py-3.5 rounded-full text-[0.85rem] md:text-[0.9rem] font-medium bg-accent text-on-accent hover:opacity-90 transition-opacity shadow-sm"
                   style={{ fontFamily: 'var(--font-cta)' }}
                 >
                   Find Storage

@@ -202,7 +202,7 @@ export default function UnitDetailPage() {
                     className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white"
                   />
                 </div>
-                <button className="w-full py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full hover:opacity-90">
+                <button className="cta-btn w-full py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full hover:opacity-90">
                   Book Now
                 </button>
                 <p className="text-center text-zinc-600 text-sm mt-3">

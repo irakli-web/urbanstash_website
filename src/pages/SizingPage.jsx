@@ -43,7 +43,7 @@ export default function SizingPage() {
             </p>
             <Link
               to="/units"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full text-base hover:opacity-90"
+              className="cta-btn inline-flex items-center gap-2 px-8 py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full text-base hover:opacity-90"
             >
               Find storage
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -96,7 +96,7 @@ export default function SizingPage() {
                 <p className="text-zinc-400 leading-relaxed mb-8">{SIZE_DESCRIPTION[active.category]}</p>
                 <Link
                   to="/units"
-                  className="inline-flex self-start items-center gap-2 px-7 py-3 bg-accent text-on-accent font-bold rounded-full hover:opacity-90"
+                  className="cta-btn inline-flex self-start items-center gap-2 px-7 py-3 bg-accent text-on-accent font-bold rounded-full hover:opacity-90"
                 >
                   Find storage
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
