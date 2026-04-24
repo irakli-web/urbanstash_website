@@ -10,6 +10,18 @@ export const HEADING_FONT_CHOICES = [
     googleHref: null,
   },
   {
+    id: 'din-1451-alt',
+    label: 'DIN 1451 Alt',
+    family: "'DIN 1451 Alt', sans-serif",
+    googleHref: null,
+  },
+  {
+    id: 'little-kids-handwriting',
+    label: 'Little Kids Handwriting',
+    family: "'Little Kids Handwriting', cursive",
+    googleHref: null,
+  },
+  {
     id: 'sv-basic',
     label: 'SV Basic Manual',
     family: "'SV Basic Manual', 'Courier New', Courier, monospace",
@@ -167,6 +179,12 @@ const CSS_VARS = {
   sectionMix:   '--font-section-mix',
 };
 
+const HERO_VERSION_KEY       = 'urbanstash-hero-version';
+const HERO_TITLE_COLOR_KEY   = 'urbanstash-hero-title-color';
+const HERO_SUB_COLOR_KEY     = 'urbanstash-hero-sub-color';
+const HERO_TITLE_SIZE_KEY    = 'urbanstash-hero-title-size';
+const HERO_SUB_SIZE_KEY      = 'urbanstash-hero-sub-size';
+
 function loadStylesheetOnce(elementId, href) {
   if (typeof document === 'undefined' || document.getElementById(elementId)) return;
   const link = document.createElement('link');
@@ -201,6 +219,11 @@ export function HeadingFontProvider({ children }) {
   const [h2,           setH2State]           = useState(() => readStored(LS_KEYS.h2,           DEFAULTS.h2));
   const [h3,           setH3State]           = useState(() => readStored(LS_KEYS.h3,           DEFAULTS.h3));
   const [sectionMix,   setSectionMixState]   = useState(() => readStored(LS_KEYS.sectionMix,   DEFAULTS.sectionMix));
+  const [heroVersion,      setHeroVersionState]     = useState(() => { try { return localStorage.getItem(HERO_VERSION_KEY) || 'split'; } catch { return 'split'; } });
+  const [heroTitleColor,   setHeroTitleColorState]  = useState(() => { try { return localStorage.getItem(HERO_TITLE_COLOR_KEY) || ''; } catch { return ''; } });
+  const [heroSubColor,     setHeroSubColorState]    = useState(() => { try { return localStorage.getItem(HERO_SUB_COLOR_KEY)   || ''; } catch { return ''; } });
+  const [heroTitleSize,    setHeroTitleSizeState]   = useState(() => { try { return localStorage.getItem(HERO_TITLE_SIZE_KEY)  || ''; } catch { return ''; } });
+  const [heroSubSize,      setHeroSubSizeState]     = useState(() => { try { return localStorage.getItem(HERO_SUB_SIZE_KEY)    || ''; } catch { return ''; } });
 
   const setHeroTitle    = useCallback((id) => { if (!isValidChoiceId(id)) return; setHeroTitleState(id);    try { localStorage.setItem(LS_KEYS.heroTitle,    id); } catch {} }, []);
   const setHeroSubtitle = useCallback((id) => { if (!isValidChoiceId(id)) return; setHeroSubtitleState(id); try { localStorage.setItem(LS_KEYS.heroSubtitle, id); } catch {} }, []);
@@ -212,6 +235,11 @@ export function HeadingFontProvider({ children }) {
   const setH2           = useCallback((id) => { if (!isValidChoiceId(id)) return; setH2State(id);           try { localStorage.setItem(LS_KEYS.h2,           id); } catch {} }, []);
   const setH3           = useCallback((id) => { if (!isValidChoiceId(id)) return; setH3State(id);           try { localStorage.setItem(LS_KEYS.h3,           id); } catch {} }, []);
   const setSectionMix   = useCallback((id) => { if (!isValidChoiceId(id)) return; setSectionMixState(id);   try { localStorage.setItem(LS_KEYS.sectionMix,   id); } catch {} }, []);
+  const setHeroVersion     = useCallback((v) => { setHeroVersionState(v);    try { localStorage.setItem(HERO_VERSION_KEY,     v); } catch {} }, []);
+  const setHeroTitleColor  = useCallback((v) => { setHeroTitleColorState(v); try { localStorage.setItem(HERO_TITLE_COLOR_KEY, v); } catch {} }, []);
+  const setHeroSubColor    = useCallback((v) => { setHeroSubColorState(v);   try { localStorage.setItem(HERO_SUB_COLOR_KEY,   v); } catch {} }, []);
+  const setHeroTitleSize   = useCallback((v) => { setHeroTitleSizeState(v);  try { localStorage.setItem(HERO_TITLE_SIZE_KEY,  v); } catch {} }, []);
+  const setHeroSubSize     = useCallback((v) => { setHeroSubSizeState(v);    try { localStorage.setItem(HERO_SUB_SIZE_KEY,    v); } catch {} }, []);
 
   useEffect(() => {
     const entries = { heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3, sectionMix };
@@ -233,9 +261,14 @@ export function HeadingFontProvider({ children }) {
     h2, setH2,
     h3, setH3,
     sectionMix, setSectionMix,
+    heroVersion, setHeroVersion,
+    heroTitleColor, setHeroTitleColor,
+    heroSubColor, setHeroSubColor,
+    heroTitleSize, setHeroTitleSize,
+    heroSubSize, setHeroSubSize,
     choices: HEADING_FONT_CHOICES,
-  }), [heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3, sectionMix,
-       setHeroTitle, setHeroSubtitle, setCta, setNav, setFooter, setBody, setH1, setH2, setH3, setSectionMix]);
+  }), [heroTitle, heroSubtitle, cta, nav, footer, body, h1, h2, h3, sectionMix, heroVersion, heroTitleColor, heroSubColor, heroTitleSize, heroSubSize,
+       setHeroTitle, setHeroSubtitle, setCta, setNav, setFooter, setBody, setH1, setH2, setH3, setSectionMix, setHeroVersion, setHeroTitleColor, setHeroSubColor, setHeroTitleSize, setHeroSubSize]);
 
   return <HeadingFontContext.Provider value={value}>{children}</HeadingFontContext.Provider>;
 }

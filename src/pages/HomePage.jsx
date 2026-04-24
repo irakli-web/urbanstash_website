@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FaqSection from '../components/FaqSection';
+import { useHeadingFonts } from '../context/HeadingFontContext';
 import heroImage from '../assets/stripe.png';
 import heroBadge from '../assets/svgg.png';
+import heroDesk from '../assets/home hero desk.png';
 
 const featureCards = [
   {
@@ -85,50 +87,82 @@ const testimonials = [
 const trustPartners = ['THE PIER', 'SOHO HOUSE', 'URBAN LOFT', 'METRO PK', 'SKYLINE'];
 
 export default function HomePage() {
+  const { heroVersion, heroTitleColor, heroSubColor, heroTitleSize, heroSubSize } = useHeadingFonts() || {};
+  const isFullscreen  = heroVersion === 'fullscreen';
+  const titleStyle    = (heroTitleColor || heroTitleSize) ? { ...(heroTitleColor && { color: heroTitleColor }), ...(heroTitleSize && { fontSize: `${heroTitleSize}rem` }) } : undefined;
+  const subtitleStyle = (heroSubColor   || heroSubSize)   ? { ...(heroSubColor   && { color: heroSubColor   }), ...(heroSubSize   && { fontSize: `${heroSubSize}rem`   }) } : undefined;
+
   return (
     <div className="min-h-screen bg-theme text-white">
       <Header showFindStorage={false} variant="homeLight" />
       <main>
-        {/* Hero */}
-        <section className="hero-section home-hero-light relative overflow-x-hidden border-b border-black/[0.06]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-            <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 items-center lg:min-h-[min(85vh,52rem)]">
-              <div className="order-2 lg:order-1 flex flex-col justify-center text-left">
-                <h1 className="text-[2.35rem] sm:text-5xl md:text-6xl lg:text-[2.85rem] xl:text-[3.35rem] uppercase leading-[1.06] text-black mb-8">
-                  <span className="block whitespace-nowrap">Storage that lives</span>
-                  <span className="block whitespace-nowrap">where you do</span>
+        {/* Hero — Split version */}
+        {!isFullscreen && (
+          <section className="hero-section home-hero-light relative overflow-x-hidden border-b border-black/[0.06]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 xl:gap-20 items-center lg:min-h-[min(85vh,52rem)]">
+                <div className="order-2 lg:order-1 flex flex-col justify-center text-left">
+                  <h1 className={`text-[2.35rem] sm:text-5xl md:text-6xl lg:text-[2.85rem] xl:text-[3.35rem] uppercase leading-[1.06] mb-8 ${heroTitleColor ? '' : 'text-black'}`} style={titleStyle}>
+                    <span className="block whitespace-nowrap">Storage that lives</span>
+                    <span className="block whitespace-nowrap">where you do</span>
+                  </h1>
+                  <p className={`hero-subtitle text-sm md:text-[0.95rem] leading-[1.85] max-w-md mb-10 ${heroSubColor ? '' : 'text-black'}`} style={subtitleStyle}>
+                    No more weekend trips to sketchy warehouses. Book online, access anytime, and never leave your neighborhood.
+                  </p>
+                  <Link
+                    to="/units"
+                    className="cta-btn inline-flex items-center gap-2 self-start px-10 py-4 rounded-full text-base font-bold bg-accent text-on-accent hover:opacity-90 transition-opacity shadow-lg"
+                  >
+                    Find storage
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                </div>
+                <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-end">
+                  <div className="relative w-full max-w-[min(100%,22rem)] sm:max-w-md lg:max-w-none lg:w-full mr-10">
+                    <div className="aspect-square rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden">
+                      <img src={heroImage} alt="Urban Stash — neighborhood storage" className="w-full h-full object-cover block" />
+                    </div>
+                    <img src={heroBadge} alt="" aria-hidden className="absolute -bottom-8 right-8 w-20 h-20 sm:w-24 sm:h-24" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Hero — Fullscreen version */}
+        {isFullscreen && (
+          <section className="hero-section w-full px-4 sm:px-6 lg:px-8 py-6">
+            <div className="relative max-w-7xl mx-auto rounded-2xl overflow-hidden" style={{ height: 'min(72vh, 46rem)' }}>
+              <img
+                src={heroDesk}
+                alt="Urban Stash — neighborhood storage"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+              <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.0) 100%)' }} />
+              <div className="relative h-full flex flex-col items-center justify-center text-center px-6 py-16 md:py-20">
+                <h1 className={`text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black uppercase tracking-tight leading-[0.92] mb-8 max-w-5xl ${heroTitleColor ? '' : 'text-white'}`} style={titleStyle}>
+                  <span className="block">Storage that lives</span>
+                  <span className="block">where you do</span>
                 </h1>
-                <p className="hero-subtitle text-sm md:text-[0.95rem] text-black leading-[1.85] max-w-md mb-10">
+                <p className={`hero-subtitle text-base md:text-lg leading-relaxed max-w-xl mb-10 ${heroSubColor ? '' : 'text-white/75'}`} style={subtitleStyle}>
                   No more weekend trips to sketchy warehouses. Book online, access anytime, and never leave your neighborhood.
                 </p>
                 <Link
                   to="/units"
-                  className="cta-btn inline-flex items-center justify-center self-start px-9 py-3.5 rounded-full text-[0.85rem] md:text-[0.9rem] font-medium bg-accent text-on-accent hover:opacity-90 transition-opacity shadow-sm"
-                  style={{ fontFamily: 'var(--font-cta)' }}
+                  className="cta-btn inline-flex items-center gap-2 px-10 py-4 rounded-full text-base font-bold bg-accent text-on-accent hover:opacity-90 transition-opacity shadow-lg"
                 >
-                  Find Storage
+                  Find storage
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
                 </Link>
               </div>
-              <div className="order-1 lg:order-2 w-full flex justify-center lg:justify-end">
-                <div className="relative w-full max-w-[min(100%,22rem)] sm:max-w-md lg:max-w-none lg:w-full mb-10 mr-10">
-                  <div className="aspect-square rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden">
-                    <img
-                      src={heroImage}
-                      alt="Urban Stash — neighborhood storage"
-                      className="w-full h-full object-cover block"
-                    />
-                  </div>
-                  <img
-                    src={heroBadge}
-                    alt=""
-                    aria-hidden
-                    className="absolute -bottom-8 right-8 w-20 h-20 sm:w-24 sm:h-24"
-                  />
-                </div>
-              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Trust bar */}
         <section className="bg-charcoal py-10 px-4 md:px-6 border-t border-white/[0.04]">
