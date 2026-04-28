@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,6 +7,74 @@ import { useHeadingFonts } from '../context/HeadingFontContext';
 import heroImage from '../assets/stripe.png';
 import heroBadge from '../assets/svgg.png';
 import heroDesk from '../assets/home hero desk.png';
+
+const storeItems = [
+  { label: 'Shoes & Sneakers',      img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop&q=80' },
+  { label: 'Luggage & Suitcases',   img: 'https://images.unsplash.com/photo-1581553673739-c4906b5d0de8?w=400&h=500&fit=crop&q=80' },
+  { label: 'Books & Documents',     img: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=500&fit=crop&q=80' },
+  { label: 'Household Boxes',       img: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=400&h=500&fit=crop&q=80' },
+  { label: 'Yard & Garden Tools',   img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=500&fit=crop&q=80' },
+  { label: "Kids' Clothing & Toys", img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=500&fit=crop&q=80' },
+  { label: 'Beds & Mattresses',     img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=500&fit=crop&q=80' },
+  { label: 'Sofas & Armchairs',     img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=500&fit=crop&q=80' },
+  { label: 'Dining Sets',           img: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=400&h=500&fit=crop&q=80' },
+  { label: 'Kitchen Appliances',    img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=500&fit=crop&q=80' },
+  { label: 'Furniture',             img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=400&h=500&fit=crop&q=80' },
+  { label: 'Seasonal Items',        img: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=400&h=500&fit=crop&q=80' },
+];
+
+function StoreCarousel() {
+  const scrollRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const onScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setProgress(max > 0 ? el.scrollLeft / max : 0);
+  }, []);
+
+  return (
+    <section className="py-14 md:py-20 bg-theme overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center">
+        <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">Storage for every life stage</p>
+        <h2 className="section-title text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-4">
+          What can you <span className="text-accent">store?</span>
+        </h2>
+        <p className="text-zinc-400 text-sm max-w-md mx-auto leading-relaxed">
+          From a single pair of sneakers to an entire apartment — we have a unit for every season of life.
+        </p>
+      </div>
+      <div
+        ref={scrollRef}
+        onScroll={onScroll}
+        className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide px-4 sm:px-6 lg:px-8 pb-2"
+        style={{ scrollSnapType: 'x mandatory' }}
+      >
+        {storeItems.map((item) => (
+          <div key={item.label} className="flex-shrink-0 w-52 sm:w-60 rounded-2xl overflow-hidden border border-white/[0.06] group cursor-pointer" style={{ scrollSnapAlign: 'start' }}>
+            <div className="relative h-64 sm:h-72 overflow-hidden">
+              <img src={item.img} alt={item.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 bg-white/[0.04]">
+              <span className="text-white font-semibold text-sm">{item.label}</span>
+              <span className="w-7 h-7 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+                <svg className="w-3.5 h-3.5 text-on-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div className="h-[3px] bg-white/[0.08] rounded-full w-48 mx-auto overflow-hidden">
+          <div className="h-full bg-accent rounded-full transition-all duration-150" style={{ width: `${Math.max(8, progress * 100)}%` }} />
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const featureCards = [
   {
@@ -252,6 +320,9 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* What can you store — carousel */}
+        <StoreCarousel />
 
         {/* Sizing teaser */}
         <section className="bg-accent-tint py-24 px-4 md:px-6 border-t border-white/[0.04] relative overflow-hidden">
