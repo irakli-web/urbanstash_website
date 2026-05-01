@@ -138,6 +138,30 @@ export const HEADING_FONT_CHOICES = [
     family: "'Barlow Condensed', sans-serif",
     googleHref: 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&display=swap',
   },
+  {
+    id: 'inter',
+    label: 'Inter',
+    family: "'Inter', sans-serif",
+    googleHref: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
+  },
+  {
+    id: 'dm-sans',
+    label: 'DM Sans',
+    family: "'DM Sans', sans-serif",
+    googleHref: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap',
+  },
+  {
+    id: 'figtree',
+    label: 'Figtree',
+    family: "'Figtree', sans-serif",
+    googleHref: 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap',
+  },
+  {
+    id: 'poppins',
+    label: 'Poppins',
+    family: "'Poppins', sans-serif",
+    googleHref: 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap',
+  },
 ];
 
 const DEFAULTS = {
