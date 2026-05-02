@@ -50,7 +50,7 @@ export default function UnitDetailPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Left column */}
             <div className="lg:col-span-2">
-              <div className="rounded-2xl bg-zinc-900 h-64 flex items-center justify-center mb-6 border border-white/[0.06]">
+              <div className="rounded-2xl bg-charcoal h-64 flex items-center justify-center mb-6 border border-white/[0.06]">
                 <span className="text-zinc-600">Gallery</span>
               </div>
 
@@ -68,7 +68,7 @@ export default function UnitDetailPage() {
 
               {/* Features */}
               <div className="mb-8">
-                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">
+                <h2 className="section-title text-lg font-bold text-accent uppercase tracking-wide mb-4">
                   Storage Facility Features
                 </h2>
                 <div className="grid grid-cols-2 gap-3">
@@ -85,13 +85,13 @@ export default function UnitDetailPage() {
 
               {/* Hours */}
               <div className="mb-8">
-                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-2">Access Hours</h2>
+                <h2 className="section-title text-lg font-bold text-accent uppercase tracking-wide mb-2">Access Hours</h2>
                 <p className="text-zinc-400">{location.accessHours}</p>
               </div>
 
               {/* Availability */}
               <div className="mb-8">
-                <h2 className="text-xl font-black text-accent uppercase tracking-wide mb-4">Availability</h2>
+                <h2 className="section-title text-xl font-black text-accent uppercase tracking-wide mb-4">Availability</h2>
                 <div className="space-y-4">
                   {location.units.map((unit) => (
                     <div
@@ -110,7 +110,7 @@ export default function UnitDetailPage() {
 
               {/* About */}
               <div className="mb-8">
-                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">About this space</h2>
+                <h2 className="section-title text-lg font-bold text-accent uppercase tracking-wide mb-4">About this space</h2>
                 <p className="text-zinc-400 leading-relaxed">{location.about}</p>
               </div>
 
@@ -123,7 +123,7 @@ export default function UnitDetailPage() {
 
               {/* How it works */}
               <div className="mb-8">
-                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">How It Works</h2>
+                <h2 className="section-title text-lg font-bold text-accent uppercase tracking-wide mb-4">How It Works</h2>
                 <div className="space-y-4">
                   {[
                     { t: 'Reserve Online', d: 'Choose your unit size and reserve for free. No credit card required upfront.' },
@@ -141,7 +141,7 @@ export default function UnitDetailPage() {
 
               {/* Reviews */}
               <div className="mb-8">
-                <h2 className="text-lg font-bold text-accent uppercase tracking-wide mb-4">Reviews</h2>
+                <h2 className="section-title text-lg font-bold text-accent uppercase tracking-wide mb-4">Reviews</h2>
                 <div className="space-y-4">
                   {location.reviews.map((r, i) => (
                     <div key={i} className="p-4 rounded-xl glass-card">
@@ -176,7 +176,7 @@ export default function UnitDetailPage() {
                 <Link to="/sizing" className="block text-zinc-500 hover:text-accent text-sm mb-4">
                   What size do I need?
                 </Link>
-                <select className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-accent">
+                <select className="w-full glass-card border border-white/[0.08] rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-accent">
                   <option>Select unit</option>
                   {filteredUnits.map((u) => (
                     <option key={u.id} value={u.id}>
@@ -190,7 +190,7 @@ export default function UnitDetailPage() {
                     type="text"
                     value={moveInDate}
                     onChange={(e) => setMoveInDate(e.target.value)}
-                    className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent"
+                    className="w-full glass-card border border-white/[0.08] rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div className="mb-6">

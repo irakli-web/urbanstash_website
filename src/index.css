@@ -62,8 +62,8 @@
   color: #000000 !important;
 }
 
-/* Body text — paragraphs, labels, list content, links */
-p, li, td, th, label, span, a { font-family: var(--font-body) !important; }
+/* Body text — paragraphs, labels, list content, links, form elements */
+p, li, td, th, label, span, a, button, input, select, option, textarea { font-family: var(--font-body) !important; }
 
 /* CTA buttons override body-link rule */
 .cta-btn { font-family: var(--font-cta) !important; }
