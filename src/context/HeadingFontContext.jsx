@@ -22,6 +22,12 @@ export const HEADING_FONT_CHOICES = [
     googleHref: null,
   },
   {
+    id: 'modular-houseplant',
+    label: 'Modular Houseplant',
+    family: "'Modular Houseplant', sans-serif",
+    googleHref: null,
+  },
+  {
     id: 'sv-basic',
     label: 'SV Basic Manual',
     family: "'SV Basic Manual', 'Courier New', Courier, monospace",

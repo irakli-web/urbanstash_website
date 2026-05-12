@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,7 +8,66 @@ import { locations } from '../data/locations';
 const FACILITY_IMG =
   'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=800&fit=crop&q=80';
 
+function VideoModal({ loc, onClose }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-4xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-accent text-xs font-bold uppercase tracking-widest mb-0.5">Unit Tour</p>
+            <h3 className="text-white font-bold text-lg">{loc.name}</h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Video */}
+        <div className="relative rounded-2xl overflow-hidden bg-black" style={{ aspectRatio: '16/9' }}>
+          <iframe
+            src={loc.tourVideoUrl}
+            title={`${loc.name} unit tour`}
+            className="absolute inset-0 w-full h-full"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+
+        {/* Footer CTA */}
+        <div className="flex items-center justify-between mt-4">
+          <p className="text-zinc-500 text-sm">{loc.address}</p>
+          <Link
+            to={`/units/${loc.slug}`}
+            onClick={onClose}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-on-accent text-sm font-bold hover:opacity-90 transition-opacity"
+          >
+            Check availability
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function UnitsPage() {
+  const [tourLoc, setTourLoc] = useState(null);
+
   return (
     <div className="min-h-screen bg-theme text-white">
       <Header showFindStorage={false} />
@@ -45,9 +104,23 @@ export default function UnitsPage() {
                     <article key={loc.id} className="rounded-2xl glass-card-strong hover:bg-white/[0.08] overflow-hidden group">
                       <div className="p-6 md:p-8">
                         <div className="flex flex-col sm:flex-row gap-5 mb-5">
-                          <div className="w-full sm:w-36 h-36 flex-shrink-0 rounded-xl overflow-hidden bg-zinc-900 border border-white/[0.06]">
-                            <img src={FACILITY_IMG} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                          </div>
+                          <div
+                    className="relative w-full sm:w-36 h-36 flex-shrink-0 rounded-xl overflow-hidden bg-zinc-900 border border-white/[0.06] cursor-pointer"
+                    onClick={() => setTourLoc(loc)}
+                  >
+                    <img src={FACILITY_IMG} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {/* Always-visible dark overlay */}
+                    <div className="absolute inset-0 bg-black/50" />
+                    {/* Centered play button */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5">
+                      <div className="w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm border border-white/30 flex items-center justify-center hover:bg-white/25 transition-colors">
+                        <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                      <span className="text-white text-[10px] font-semibold tracking-wide uppercase">Virtual Tour</span>
+                    </div>
+                  </div>
                           <div className="flex-1 min-w-0">
                             <h2 className="text-lg md:text-xl font-bold text-white mb-1">{loc.name}</h2>
                             <p className="text-zinc-500 text-sm flex items-start gap-1.5 mb-3">
@@ -120,6 +193,9 @@ export default function UnitsPage() {
         <FaqSection />
       </main>
       <Footer />
+
+      {/* Video tour modal */}
+      {tourLoc && <VideoModal loc={tourLoc} onClose={() => setTourLoc(null)} />}
     </div>
   );
 }

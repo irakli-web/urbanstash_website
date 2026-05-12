@@ -20,6 +20,7 @@ export default function Header({ showFindStorage = true, variant = 'default' }) 
     { to: '/sizing', label: 'Sizing' },
     { to: '/units', label: 'Locations' },
     { to: '/about', label: 'About' },
+    { to: '/customer-voice', label: 'Customer Voice' },
   ];
 
   const headerShell = isLight

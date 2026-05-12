@@ -10,6 +10,46 @@ export const sizes = [
   { category: 'Large', dimensions: '10 x 8 x 7.5 (80 sq ft)', for: 'Full apartments' },
 ];
 
+// Per-category enrichment: carousel items + tour video
+export const categoryMeta = {
+  Small: {
+    videoUrl: 'https://www.youtube.com/embed/jNQXAC9IVRw?autoplay=1&rel=0&modestbranding=1',
+    videoLabel: 'See inside a Small unit',
+    items: [
+      { label: 'Shoes & Sneakers',     img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop&q=80' },
+      { label: 'Seasonal Boxes',       img: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=400&h=400&fit=crop&q=80' },
+      { label: 'Luggage & Bags',       img: 'https://images.unsplash.com/photo-1581553673739-c4906b5d0de8?w=400&h=400&fit=crop&q=80' },
+      { label: 'Holiday Decorations',  img: 'https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=400&h=400&fit=crop&q=80' },
+      { label: 'Books & Documents',    img: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=400&fit=crop&q=80' },
+      { label: 'Sports Gear',          img: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=400&fit=crop&q=80' },
+    ],
+  },
+  Medium: {
+    videoUrl: 'https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&rel=0&modestbranding=1',
+    videoLabel: 'See inside a Medium unit',
+    items: [
+      { label: 'Bicycle',              img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80' },
+      { label: 'Dresser & Drawers',    img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop&q=80' },
+      { label: 'TV & Electronics',     img: 'https://images.unsplash.com/photo-1593359677879-a4bb92f4834c?w=400&h=400&fit=crop&q=80' },
+      { label: 'Moving Boxes',         img: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=400&h=400&fit=crop&q=80' },
+      { label: "Kids' Toys & Gear",    img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=400&fit=crop&q=80' },
+      { label: 'Garden Tools',         img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop&q=80' },
+    ],
+  },
+  Large: {
+    videoUrl: 'https://www.youtube.com/embed/ysz5S6PUM-U?autoplay=1&rel=0&modestbranding=1',
+    videoLabel: 'See inside a Large unit',
+    items: [
+      { label: 'Sofa & Armchairs',     img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=400&fit=crop&q=80' },
+      { label: 'Bed & Mattress',       img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=400&fit=crop&q=80' },
+      { label: 'Dining Set',           img: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=400&h=400&fit=crop&q=80' },
+      { label: 'Appliances',           img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop&q=80' },
+      { label: 'Full Apartment Move',  img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=400&h=400&fit=crop&q=80' },
+      { label: 'Wardrobe & Clothing',  img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80' },
+    ],
+  },
+};
+
 export const whyStashItems = [
   { title: 'Right around the corner', desc: 'Storage in your neighborhood—no long drives, no hassle.' },
   { title: 'Your space, your rules', desc: 'Access your unit anytime using your phone.' },

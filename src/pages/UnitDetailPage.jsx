@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LocationVideoCarousel from '../components/LocationVideoCarousel';
@@ -11,10 +11,12 @@ const STAY_MONTHS = 12;
 
 export default function UnitDetailPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const location = getLocationBySlug(slug);
   const [selectedSize, setSelectedSize] = useState('small');
   const [moveInDate, setMoveInDate] = useState('04/01/26');
   const [lightboxImg, setLightboxImg] = useState(null);
+  const [selectedUnitId, setSelectedUnitId] = useState('');
 
   if (!location) {
     return (
@@ -241,8 +243,12 @@ export default function UnitDetailPage() {
                 <Link to="/sizing" className="block text-zinc-500 hover:text-accent text-sm mb-4">
                   What size do I need?
                 </Link>
-                <select className="w-full glass-card border border-white/[0.08] rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-accent">
-                  <option>Select unit</option>
+                <select
+                  value={selectedUnitId}
+                  onChange={(e) => setSelectedUnitId(e.target.value)}
+                  className="w-full glass-card border border-white/[0.08] rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-accent"
+                >
+                  <option value="">Select unit</option>
                   {filteredUnits.map((u) => (
                     <option key={u.id} value={u.id}>
                       {u.size} - ${u.price}/month
@@ -267,7 +273,13 @@ export default function UnitDetailPage() {
                     className="w-full bg-white/5 border border-white/[0.08] rounded-xl px-4 py-3 text-white"
                   />
                 </div>
-                <button className="cta-btn w-full py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full hover:opacity-90">
+                <button
+                  onClick={() => {
+                    const unitId = selectedUnitId || filteredUnits[0]?.id || location.units[0]?.id;
+                    navigate(`/book/${slug}?unit=${unitId}`);
+                  }}
+                  className="cta-btn w-full py-4 bg-accent-cta text-accent-cta-contrast font-bold rounded-full hover:opacity-90"
+                >
                   Book Now
                 </button>
                 <p className="text-center text-zinc-600 text-sm mt-3">

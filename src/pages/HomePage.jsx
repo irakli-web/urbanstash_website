@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -7,6 +7,227 @@ import { useHeadingFonts } from '../context/HeadingFontContext';
 import heroImage from '../assets/stripe.png';
 import heroBadge from '../assets/svgg.png';
 import heroDesk from '../assets/home hero desk.png';
+import imgFaithmtabo from '../assets/social/faithmtabo.png';
+import imgJacqgilbertson from '../assets/social/jacqgilbertson.png';
+
+const STORIES = [
+  {
+    handle: 'faithmtabo',
+    tag: '@urbanstash_',
+    img: imgFaithmtabo,
+    review: "Seriously the easiest storage experience I've ever had. Thanks for holding my things!",
+    stars: 5,
+    time: '2 days ago',
+  },
+  {
+    handle: 'jacqgilbertson',
+    tag: '@urbanstash_',
+    img: imgJacqgilbertson,
+    review: "Perfect neighborhood storage — clean, secure, and accessible whenever I need it.",
+    stars: 5,
+    time: '1 week ago',
+  },
+  {
+    handle: 'priya.stashes',
+    tag: '@urbanstash_',
+    img: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=600&fit=crop&q=80',
+    review: "Spotless unit, SO close to my apartment. It genuinely freed up so much space in my life.",
+    stars: 5,
+    time: '2 weeks ago',
+  },
+  {
+    handle: 'milesnyc_',
+    tag: '@urbanstash',
+    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=600&fit=crop&q=80',
+    review: "Finally cleared out my whole closet. Getting in and out is so simple.",
+    stars: 5,
+    time: '3 weeks ago',
+  },
+];
+
+const REVIEWS = [
+  {
+    text: "Super smooth from start to finish. Getting in and out is simple, everything is well organized, and it made a huge difference clearing clutter from my apartment.",
+    author: 'yaara tal',
+    time: '2 weeks ago',
+    stars: 5,
+  },
+  {
+    text: "Amazing experience — super easy and hassle-free! Everything felt secure, and it really helped me free up valuable space. Highly recommend.",
+    author: 'Maya Raichel',
+    time: '3 weeks ago',
+    stars: 5,
+  },
+  {
+    text: "Great storage service! Clean, secure, and easy to access. The staff is friendly and professional.",
+    author: 'Ori',
+    time: '1 month ago',
+    stars: 5,
+  },
+];
+
+const IGIcon = () => (
+  <svg className="w-5 h-5 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+  </svg>
+);
+
+function StasherCarousel() {
+  const [active, setActive] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  const goTo = useCallback((idx) => {
+    setVisible(false);
+    setTimeout(() => {
+      setActive(idx);
+      setVisible(true);
+    }, 280);
+  }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => goTo((active + 1) % STORIES.length), 4500);
+    return () => clearTimeout(t);
+  }, [active, goTo]);
+
+  const story = STORIES[active];
+
+  return (
+    <section className="bg-black py-14 px-4 md:px-6 relative overflow-hidden">
+      <div className="gradient-orb-cta w-[600px] h-[600px] -top-32 left-1/2 -translate-x-1/2 opacity-60" />
+      <div className="relative max-w-6xl mx-auto">
+
+        {/* Centered header */}
+        <div className="text-center mb-8">
+          <p className="text-accent text-xs font-bold uppercase tracking-widest mb-3">Testimonials</p>
+          <h2 className="section-title text-4xl md:text-5xl font-black uppercase tracking-tight mb-3">
+            Trusted by the <span className="text-accent">neighborhood</span>
+          </h2>
+          <p className="inline-flex items-center gap-1.5 text-zinc-500 text-sm font-medium">
+            <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            4.9/5 on Google Reviews &middot; 500+ happy neighbors
+          </p>
+        </div>
+
+        {/* Two-column layout */}
+        <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+
+          {/* LEFT — social post card carousel */}
+          <div className="flex flex-col gap-3">
+            {/* Post card */}
+            <div
+              className="rounded-2xl overflow-hidden border border-white/[0.08] bg-zinc-900"
+              style={{ transition: 'opacity 0.28s ease', opacity: visible ? 1 : 0 }}
+            >
+              {/* Card header — handle + IG icon */}
+              <div className="flex items-center justify-between px-4 py-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-xs font-black text-on-accent flex-shrink-0">
+                    {story.handle[0].toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-xs leading-tight">@{story.handle}</p>
+                    <p className="text-zinc-500 text-[10px]">tagged {story.tag}</p>
+                  </div>
+                </div>
+                <IGIcon />
+              </div>
+
+              {/* Image */}
+              <div className="relative w-full" style={{ height: '260px' }}>
+                <img
+                  src={story.img}
+                  alt={story.handle}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Card footer — stars, review, time */}
+              <div className="px-4 py-3">
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex gap-0.5">
+                    {[...Array(story.stars)].map((_, i) => (
+                      <span key={i} className="text-accent text-xs">★</span>
+                    ))}
+                  </div>
+                  <span className="text-zinc-600 text-[11px]">{story.time}</span>
+                </div>
+                <p className="text-zinc-200 text-sm leading-snug">
+                  &ldquo;{story.review}&rdquo;
+                </p>
+              </div>
+            </div>
+
+            {/* Dots + arrows */}
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-1.5">
+                {STORIES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goTo(i)}
+                    className="h-1 rounded-full transition-all duration-300"
+                    style={{ width: i === active ? '1.75rem' : '0.3rem', backgroundColor: i === active ? 'var(--accent-color)' : 'rgba(255,255,255,0.2)' }}
+                  />
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => goTo((active - 1 + STORIES.length) % STORIES.length)}
+                  className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:border-white/30 transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => goTo((active + 1) % STORIES.length)}
+                  className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:border-white/30 transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — stacked reviews */}
+          <div className="flex flex-col gap-3 justify-center">
+            {REVIEWS.map((r, i) => (
+              <div key={i} className="flex flex-col justify-between px-4 py-3 rounded-2xl glass-card border border-white/[0.06] hover:border-white/[0.12] transition-colors">
+                {/* Stars + time */}
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex gap-0.5">
+                    {[...Array(r.stars)].map((_, j) => (
+                      <span key={j} className="text-accent text-xs">★</span>
+                    ))}
+                  </div>
+                  <span className="text-zinc-600 text-[11px]">{r.time}</span>
+                </div>
+                {/* Text */}
+                <p className="text-zinc-300 text-xs leading-relaxed flex-1">&ldquo;{r.text}&rdquo;</p>
+                {/* Author */}
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="w-6 h-6 rounded-full bg-white/[0.08] flex items-center justify-center text-[9px] font-bold text-zinc-300 flex-shrink-0">
+                    {r.author[0].toUpperCase()}
+                  </div>
+                  <p className="text-zinc-400 text-xs font-medium">{r.author}</p>
+                  <span className="ml-auto">
+                    <svg className="w-3 h-3 text-zinc-700" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const storeItems = [
   { label: 'Shoes & Sneakers',      img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=500&fit=crop&q=80' },
@@ -68,8 +289,21 @@ function StoreCarousel() {
         ))}
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="h-[3px] bg-white/[0.08] rounded-full w-48 mx-auto overflow-hidden">
+        <div className="h-[3px] bg-white/[0.08] rounded-full w-48 mx-auto overflow-hidden mb-10">
           <div className="h-full bg-accent rounded-full transition-all duration-150" style={{ width: `${Math.max(8, progress * 100)}%` }} />
+        </div>
+        {/* CTA */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+          <p className="text-zinc-400 text-sm">Not sure what unit fits your stuff?</p>
+          <Link
+            to="/calculator"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-on-accent text-sm font-bold hover:opacity-90 transition-opacity"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Calculate my storage size
+          </Link>
         </div>
       </div>
     </section>
@@ -203,24 +437,35 @@ export default function HomePage() {
         {/* Hero — Fullscreen version */}
         {isFullscreen && (
           <section className="hero-section w-full px-4 sm:px-6 lg:px-8 py-6">
-            <div className="relative max-w-7xl mx-auto rounded-2xl overflow-hidden" style={{ height: 'min(72vh, 46rem)' }}>
+            <div
+              className="relative max-w-7xl mx-auto rounded-2xl overflow-hidden group"
+              style={{ height: 'min(72vh, 46rem)' }}
+            >
               <img
                 src={heroDesk}
                 alt="Urban Stash — neighborhood storage"
-                className="absolute inset-0 w-full h-full object-cover object-center"
+                className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-700"
               />
-              <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.0) 100%)' }} />
-              <div className="relative h-full flex flex-col items-center justify-center text-center px-6 py-16 md:py-20">
-                <h1 className={`text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black uppercase tracking-tight leading-[0.92] mb-8 max-w-5xl ${heroTitleColor ? '' : 'text-white'}`} style={titleStyle}>
+              {/* Dark overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              {/* Content overlay */}
+              <div className="hero-fs-overlay absolute inset-0 flex flex-col justify-end px-8 pb-12 md:px-14 md:pb-16">
+                <h1
+                  className={`text-4xl sm:text-5xl md:text-6xl uppercase leading-[1.06] mb-5`}
+                  style={{ ...(heroTitleSize && { fontSize: `${heroTitleSize}rem` }), color: 'white' }}
+                >
                   <span className="block">Storage that lives</span>
                   <span className="block">where you do</span>
                 </h1>
-                <p className={`hero-subtitle text-base md:text-lg leading-relaxed max-w-xl mb-10 ${heroSubColor ? '' : 'text-white/75'}`} style={subtitleStyle}>
+                <p
+                  className={`hero-subtitle text-sm md:text-base leading-relaxed max-w-md mb-8`}
+                  style={{ ...(heroSubSize && { fontSize: `${heroSubSize}rem` }), color: 'rgba(255,255,255,0.85)' }}
+                >
                   No more weekend trips to sketchy warehouses. Book online, access anytime, and never leave your neighborhood.
                 </p>
                 <Link
                   to="/units"
-                  className="cta-btn inline-flex items-center gap-2 px-10 py-4 rounded-full text-base font-bold bg-accent text-on-accent hover:opacity-90 transition-opacity shadow-lg"
+                  className="cta-btn inline-flex items-center gap-2 self-start px-10 py-4 rounded-full text-base font-bold bg-accent text-on-accent hover:opacity-90 transition-opacity shadow-lg"
                 >
                   Find storage
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -285,41 +530,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section className="bg-black py-24 px-4 md:px-6 relative">
-          <div className="gradient-orb-cta w-[500px] h-[500px] -top-20 left-1/2 -translate-x-1/2" />
-          <div className="relative max-w-7xl mx-auto">
-            <div className="text-center mb-14">
-              <p className="text-accent text-xs font-bold uppercase tracking-widest mb-4">Testimonials</p>
-              <h2 className="section-title text-4xl md:text-5xl font-black uppercase tracking-tight mb-4">
-                Trusted by the <span className="text-accent">neighborhood</span>
-              </h2>
-              <p className="inline-flex items-center gap-2 text-zinc-500 text-sm font-medium">
-                <svg className="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                4.9/5 on Google Reviews &middot; 500+ happy neighbors
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              {testimonials.map((t, i) => (
-                <div key={i} className="p-6 rounded-2xl glass-card hover:bg-white/[0.07] flex flex-col">
-                  <div className="text-accent text-4xl font-serif leading-none mb-4">&ldquo;</div>
-                  <p className="text-zinc-300 text-sm leading-relaxed flex-1 mb-6">{t.quote}</p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
-                    <div className="w-9 h-9 rounded-full bg-accent/15 text-accent flex items-center justify-center font-bold text-sm">
-                      {t.name.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="font-semibold text-white text-sm">{t.name}</p>
-                      <p className="text-xs text-zinc-500">{t.location}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <StasherCarousel />
 
         {/* What can you store — carousel */}
         <StoreCarousel />

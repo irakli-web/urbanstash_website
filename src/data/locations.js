@@ -6,6 +6,8 @@ export const locations = [
     name: '24 Avenue B',
     address: '24 Avenue B, New York, New York 10009, United States',
     neighborhood: 'East Village',
+    tourVideoUrl: 'https://www.youtube.com/embed/ysz5S6PUM-U?autoplay=1&rel=0&modestbranding=1',
+    tourThumbnail: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop&q=80',
     reviewCount: 28,
     rating: 4.8,
     featuredReview: {

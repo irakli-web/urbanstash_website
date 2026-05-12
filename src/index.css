@@ -26,6 +26,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Modular Houseplant';
+  src: url('./fonts/ModularHouseplantRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -251,6 +259,15 @@ a, button, input, select, details summary {
 [data-theme="light"] .bg-black h1,
 [data-theme="light"] .bg-black h2,
 [data-theme="light"] .bg-black h3 { color: #ffffff !important; }
+
+/* Fullscreen hero overlay — always white text regardless of theme */
+.hero-fs-overlay,
+.hero-fs-overlay h1,
+.hero-fs-overlay h2,
+.hero-fs-overlay p,
+[data-theme="light"] .hero-fs-overlay,
+[data-theme="light"] .hero-fs-overlay h1,
+[data-theme="light"] .hero-fs-overlay p { color: #ffffff !important; }
 [data-theme="light"] .bg-black .text-zinc-300 { color: #d4d4d8 !important; }
 [data-theme="light"] .bg-black .text-zinc-400 { color: #a1a1aa !important; }
 [data-theme="light"] .bg-black .text-zinc-500 { color: #71717a !important; }
